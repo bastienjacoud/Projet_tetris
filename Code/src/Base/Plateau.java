@@ -36,7 +36,6 @@ public class Plateau {
 	
 	public boolean positionPossible(Piece p, int px, int py)
 	{
-		boolean test = false;
 		for(int i = 0; (i < p.Hauteur()) && (i < m_tab.length); i++)
 		{
 			for(int j = 0; (j < p.Largeur()) && (j < m_tab[0].length); j++)
