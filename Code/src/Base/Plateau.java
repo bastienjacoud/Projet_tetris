@@ -34,8 +34,16 @@ public class Plateau {
 		//Pose une piece aux coordonnees voulues
 		if(positionPossible(p, px, py))
 		{
+			Case[][] c = p.getForme();
 			//On peut poser la piece
-			for()
+			for(int i = 0; (i < p.Hauteur()); i++)
+			{
+				for(int j = 0; (j < p.Largeur()); j++)
+				{
+					if(p.Plein(i - px, j - py))
+						m_tab[i][j] = c[i - px][j - py];
+				}
+			}
 		}
 	}
 	
