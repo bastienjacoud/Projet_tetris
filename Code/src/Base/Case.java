@@ -1,7 +1,7 @@
 package Base;
 
-public class Case {
-	
+public class Case 
+{	
 	protected int m_couleur;
 
 	public Case() 
@@ -18,6 +18,4 @@ public class Case {
 	{
 		this.m_couleur = couleur;
 	}
-	
-
 }
