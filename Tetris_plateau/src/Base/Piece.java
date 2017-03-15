@@ -1,32 +1,47 @@
 package Base;
 
+import java.awt.Color;
+
 public class Piece
 {
 
 	protected boolean[][] m_forme;
+	protected Color m_couleur;
+	//Les positions valent -1 si la piece n'est pas posee
 	protected int m_x, m_y;
 
 	public Piece()
 	{
 		boolean[][] forme = new boolean[][] {{true}};
-		Init(forme, 0, 0);
+		Init(forme, 0, 0, Case.Color());
 	}
 
 	public Piece(boolean[][] forme)
 	{
-		Init(forme, 0, 0);
+		Init(forme, -1, -1, Case.Color());
+	}
+
+	public Piece(boolean[][] forme, Color couleur)
+	{
+		Init(forme, -1, -1, couleur);
 	}
 
 	public Piece(boolean[][] forme, int px, int py)
 	{
-		Init(forme, px, py);
+		Init(forme, px, py, Case.Color());
 	}
 
-	protected void Init(boolean[][] forme, int px, int py)
+	public Piece(boolean[][] forme, int px, int py, Color couleur)
 	{
-		m_x = Math.max(px, 0);
-		m_y = Math.max(py, 0);
+		Init(forme, px, py, couleur);
+	}
+
+	protected void Init(boolean[][] forme, int px, int py, Color c)
+	{
+		m_x = px;
+		m_y = py;
 		m_forme = forme;
+		m_couleur = c;
 	}
 
 	public boolean[][] getForme()
@@ -40,6 +55,8 @@ public class Piece
 	 */
 	public boolean Contains(int x, int y)
 	{
+		if((m_x < 0) || (m_y < 0))
+			return false;
 		if((x >= m_x)
 			&& (x < (m_x + m_forme.length))
 			&& (y >= m_y)
@@ -71,7 +88,9 @@ public class Piece
 	 */
 	public boolean Move(int x, int y)
 	{
-		if(((m_x + x) >= 0)
+		if((m_x >= 0)
+			&& (m_y >= 0)
+			&& ((m_x + x) >= 0)
 			&& ((m_y + y) >= 0))
 		{
 			m_x += x;

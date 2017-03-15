@@ -1,21 +1,48 @@
 package Base;
 
-public class Case 
-{	
-	protected int m_couleur;
+import java.awt.Color;
 
-	public Case() 
+public class Case
+{
+	protected Color m_couleur;
+
+	//Liste des couleurs disponnibles
+	protected static Color[] _col = new Color[] {Color.blue, Color.green, Color.yellow, Color.red, Color.orange};
+	protected static Color _vide = new Color(0, 0, 0, 0);
+
+	public Case()
 	{
-		// TODO Auto-generated constructor stub
+		Init(_vide);
 	}
-	
-	public int getCouleur()
+
+	public Case(Color couleur)
 	{
-		return this.m_couleur;
+		Init(couleur);
 	}
-	
-	public void setCouleur(int couleur)
+
+	protected void Init(Color c)
+	{
+		m_couleur = c;
+	}
+
+	public Color getCouleur()
+	{
+		return m_couleur;
+	}
+
+	public void setCouleur(Color couleur)
 	{
 		this.m_couleur = couleur;
+	}
+
+	public boolean Vide()
+	{
+		return m_couleur == _vide;
+	}
+
+	//Retourne une des couleurs disponibles autres que _vide
+	static public Color Color()
+	{
+		return _col[(int)(Math.random() * _col.length)];
 	}
 }
