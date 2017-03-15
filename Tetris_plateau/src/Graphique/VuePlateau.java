@@ -7,12 +7,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class VuePlateau extends Application {
 
 	private Stage primaryStage;
-	private BorderPane rootLayout;
+	private GridPane rootLayout;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -32,7 +33,8 @@ public class VuePlateau extends Application {
 			// Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(VuePlateau.class.getResource("../Graphique/VuePlateau.fxml"));
-            rootLayout = (BorderPane) loader.load();
+            rootLayout = (GridPane) loader.load();
+            rootLayout.getChildren().get(10)
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
@@ -56,7 +58,7 @@ public class VuePlateau extends Application {
             AnchorPane personOverview = (AnchorPane) loader.load();
 
             // Set person overview into the center of root layout.
-            rootLayout.setCenter(personOverview);
+           // rootLayout.setCenter(personOverview);
         } catch (IOException e) {
             e.printStackTrace();
         }
