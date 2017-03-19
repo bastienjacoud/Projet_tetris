@@ -6,8 +6,6 @@ public class Case
 {
 	protected Color m_couleur;
 
-	//Liste des couleurs disponnibles
-	protected static Color[] _col = new Color[] {Color.blue, Color.green, Color.yellow, Color.red, Color.orange};
 	protected static Color _vide = new Color(0, 0, 0, 0);
 
 	public Case()
@@ -38,11 +36,5 @@ public class Case
 	public boolean Vide()
 	{
 		return m_couleur == _vide;
-	}
-
-	//Retourne une des couleurs disponibles autres que _vide
-	static public Color Color()
-	{
-		return _col[(int)(Math.random() * _col.length)];
 	}
 }
