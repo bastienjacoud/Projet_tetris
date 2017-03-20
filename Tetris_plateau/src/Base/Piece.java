@@ -4,7 +4,6 @@ import java.awt.Color;
 
 public class Piece
 {
-
 	protected boolean[][] m_forme;
 	protected Color m_couleur;
 	//Les positions valent -1 si la piece n'est pas posee
@@ -70,10 +69,13 @@ public class Piece
 	{
 		if((m_x < 0) || (m_y < 0))
 			return false;
-		if((x >= m_x)
-			&& (x < (m_x + m_forme.length))
-			&& (y >= m_y)
-			&& (y < (m_y + m_forme[0].length)))
+		//On adapte les index a la piece
+		x -= m_x;
+		y -= m_y;
+		if((x >= 0)
+			&& (x < m_forme.length)
+			&& (y >= 0)
+			&& (y < m_forme[0].length))
 		{
 			return m_forme[x][y];
 		}
@@ -111,6 +113,8 @@ public class Piece
 		return m_forme[0].length;
 	}
 
+	/* Retourne la liste des index des cases occupees par la case a sa position actuelle
+	 */
 	public int[][] Index()
 	{
 		if((m_x < 0) || (m_y < 0))
