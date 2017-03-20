@@ -103,6 +103,16 @@ public class Piece
 		}
 	}
 
+	public int getX()
+	{
+		return m_x;
+	}
+
+	public int getY()
+	{
+		return m_y;
+	}
+
 	public int Hauteur()
 	{
 		return m_forme.length;
@@ -143,8 +153,8 @@ public class Piece
 	}
 
 	/* Deplace la piece
-	 * x : deplacement vertical
-	 * y : deplacement lateral
+	 * x : deplacement vertical (<0 haut, 0 nul, >0 bas)
+	 * y : deplacement lateral (<0 droite, 0 nul, >0 gauche)
 	 * x ou y doit etre nul
 	 */
 	public boolean Move(int x, int y)

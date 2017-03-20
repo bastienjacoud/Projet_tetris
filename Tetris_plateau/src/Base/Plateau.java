@@ -115,8 +115,11 @@ public class Plateau {
 		if((py < 0) || ((py + p.Largeur() > m_y)))
 			return false;
 		//On verifie qu'il n'y ait pas deux cases occupees superposees
+		int tx = p.getX(), ty = p.getY();
 		p.setPos(px,  py);
 		int[][] id = p.Index();
+		//On remet la piece a sa position initiale
+		p.setPos(tx, ty);
 		for(int i = 0; i < id.length; i++)
 		{
 			if(Occupee(id[i][0], id[i][1]))
@@ -131,5 +134,76 @@ public class Plateau {
 	public int getIndex(Piece p)
 	{
 		return m_pieces.indexOf(p);
+	}
+
+	/* Bouge une piece du plateau
+	 * p : piece a bouger
+	 * x : deplacement vertical (<0 haut, 0 nul, >0 bas)
+	 * y : deplacement lateral (<0 droite, 0 nul, >0 gauche)
+	 * x ou y doit etre nul
+	 * Retourne "true" si le depplacement a eu lieu, "false" sinon
+	 */
+	public boolean Move(Piece p, int x, int y)
+	{
+		x = (x == 0) ? 0 : (x > 0) ? 1 : -1;
+		y = (y == 0) ? 0 : (y > 0) ?1 : -1;
+		int px = p.getX() + x;
+		int py = p.getY() + y;
+		if(positionPossible(p, px, py))
+		{
+			int[][] tabA = p.Index();
+			p.Move(x, y);
+			int[][] tabB = p.Index();
+			int[][] res= diff(tabA, tabB);
+			for(int i = 0; i < res.length; i++)
+				m_change[res[i][0]][res[i][1]] = true;
+			return true;
+		}
+		return false;
+	}
+
+	//Retourne les index contenus dans a ou dans b mais pas dans les deux
+	//On suppose qu'il n'y a jamais deux fois le meme index dans un tableau
+	public static int[][] diff(int[][] a, int[][] b)
+	{
+		int[][] c = new int[a.length + b.length][2];
+		int compteur = 0;
+		for(int i = 0; i < a.length; i++)
+		{
+			boolean test = true;
+			for(int j = 0; (j < b.length) && test; j++)
+			{
+				if((a[i][0] == b[j][0]) && (a[i][1] == b[j][1]))
+				{
+					b[i][0] = b[i][1] = -1;
+					test = false;
+				}
+			}
+			if(test)
+			{
+				//La valeur est dans a et pas dans b
+				c[compteur][0] = a[i][0];
+				c[compteur][1] = a[i][1];
+				compteur++;
+			}
+		}
+		//On recupere les valeurs dans b qui n'etaient pas dans a
+		for(int i = 0; i < b.length; i++)
+		{
+			if((b[i][0] >= 0) && (b[i][1] >= 0))
+			{
+				//La valeur est dans b et pas dans a
+				c[compteur][0] = b[i][0];
+				c[compteur][1] = b[i][1];
+				compteur++;
+			}
+		}
+		int[][] res = new int[compteur][2];
+		for(int i = 0; i < compteur; i++)
+		{
+			res[i][0] = c[i][0];
+			res[i][1] = c[i][1];
+		}
+		return res;
 	}
 }
