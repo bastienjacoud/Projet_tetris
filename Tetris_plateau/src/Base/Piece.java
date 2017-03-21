@@ -20,7 +20,7 @@ public class Piece
 	public Piece()
 	{
 		boolean[][] forme = new boolean[][] {{true}};
-		Init(forme, 0, 0, Color());
+		Init(forme, -1, -1, Color());
 	}
 
 	public Piece(boolean[][] forme)
@@ -123,7 +123,7 @@ public class Piece
 		return m_forme[0].length;
 	}
 
-	/* Retourne la liste des index des cases occupees par la case a sa position actuelle
+	/* Retourne la liste des index des cases occupees par la piece a sa position actuelle
 	 */
 	public int[][] Index()
 	{
