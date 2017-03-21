@@ -5,6 +5,9 @@ import java.awt.Color;
 import Base.*;
 
 import javafx.application.Application;
+import javafx.beans.Observable;
+import javafx.beans.value.ObservableObjectValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -26,17 +29,18 @@ public class Main extends Application
 
 	public Main()
 	{
+		//On ajoute notre unique plateau
 		_plateau.add(new Plateau(20,10));
 	}
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage)
+	{
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Plateau");
 
 		initRootLayout();
-		showPersonOverview();
-
+		afficherPlateau();
 
 	}
 
@@ -70,24 +74,33 @@ public class Main extends Application
 	/**
      * Shows the person overview inside the root layout.
      */
-    public void showPersonOverview() {
-        try {
-            // Load person overview.
+    public void afficherPlateau()
+    {
+        try
+        {
+            // Charge l'affichage du plateau.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("../Graphique/Grille.fxml"));
             AnchorPane grille = (AnchorPane) loader.load();
 
 
-            // Set person overview into the center of root layout.
+            // Fixe l'affichage au centre
             rootLayout.setCenter(grille);
-        } catch (IOException e) {
+
+            // Donne au controller l'acces au Main.
+            PlateauController controller = loader.getController();
+            controller.setMain(this);
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		launch(args);
 	}
 }
