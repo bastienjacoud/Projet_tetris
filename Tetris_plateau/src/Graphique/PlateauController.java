@@ -26,7 +26,7 @@ public class PlateauController
 
 	public PlateauController()
 	{
-
+		//
 	}
 
 	@FXML
@@ -50,8 +50,7 @@ public class PlateauController
 	public void setMain(Main main)
 	{
 		this._main = main;
-
-		gp.getChildren().setAll(main.getPlateau());
+		gp.getChildren().setAll((Node)main.getPlateau());
 	}
 
 }
