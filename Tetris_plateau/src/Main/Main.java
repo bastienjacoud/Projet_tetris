@@ -25,12 +25,12 @@ public class Main extends Application
 {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
-	public ObservableList<Plateau> _plateau = FXCollections.observableArrayList();
+	public Plateau _plateau;
 
 	public Main()
 	{
 		//On ajoute notre unique plateau
-		_plateau.add(new Plateau(20,10));
+		_plateau = new Plateau(20,10);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class Main extends Application
 
 	}
 
-	public ObservableList<Plateau> getPlateau()
+	public Plateau getPlateau()
 	{
 		return _plateau;
 	}

@@ -16,7 +16,6 @@ import Base.Case;
 
 public class PlateauController
 {
-
 	protected Main m_main;
 	protected int m_h, m_l;
 	protected ObservableList<Case> m_cases = FXCollections.observableArrayList();
@@ -39,6 +38,8 @@ public class PlateauController
 	public void setMain(Main main)
 	{
 		this.m_main = main;
-		//
+		m_h = m_main.getPlateau().getHauteur();
+		m_l = m_main.getPlateau().getLargeur();
+
 	}
 }

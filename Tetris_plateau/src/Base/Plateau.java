@@ -22,12 +22,12 @@ public class Plateau {
 		Init(hauteur, largeur);
 	}
 
-	public int getLargeur()
+	public int getHauteur()
 	{
 		return m_x.get();
 	}
 
-	public int getLongueur()
+	public int getLargeur()
 	{
 		return m_y.get();
 	}
