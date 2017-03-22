@@ -2,11 +2,15 @@ package Base;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+
 public class Plateau {
 
-	protected int m_x, m_y;
-	protected ArrayList<Piece> m_pieces;
-	protected boolean[][] m_change;
+	protected IntegerProperty m_x, m_y;
+	protected ListProperty<Piece> m_pieces;
+	protected ObjectProperty<Case>[][] m_cases;
 
 	public Plateau()
 	{
@@ -18,28 +22,89 @@ public class Plateau {
 		Init(hauteur, largeur);
 	}
 
+	public int getLargeur()
+	{
+		return m_x.get();
+	}
+
+	public int getLongueur()
+	{
+		return m_y.get();
+	}
+
+	public ArrayList<Piece> getPieces()
+	{
+		ArrayList<Piece> pieces = new ArrayList<Piece>();
+		for(int i=0;i<pieces.size();i++)
+			pieces.add(m_pieces.get(i));
+		return pieces;
+	}
+
+	public Case[][] getCases()
+	{
+		Case[][] cases = new Case[m_cases.length][m_cases[0].length];
+		for(int i = 0; i < cases.length; i++)
+		{
+			for(int j = 0; j < cases[0].length; j++)
+				cases[i][j] = m_cases[i][j].get();
+		}
+		return cases;
+	}
+
+	public ObjectProperty<Case>[][] getCasesProperty()
+	{
+		return m_cases;
+	}
+
+	public void setLargeur(int x)
+	{
+		m_x.set(x);
+	}
+
+	public void setLongueur(int y)
+	{
+		m_y.set(y);
+	}
+
+	public void setPieces(ArrayList<Piece> pieces)
+	{
+		m_pieces.setAll(pieces);
+	}
+
+	public void setCases(Case[][] cases)
+	{
+		for(int i = 0; i < m_cases.length; i++)
+		{
+			for(int j = 0; j < m_cases[0].length; j++)
+				m_cases[i][j].set(cases[i][j]);
+		}
+	}
+
 	protected void Init(int h, int l)
 	{
-		m_x = (h > 0) ? h : 1;
-		m_y = (l > 0) ? l : 1;
-		m_change = new boolean[m_x][m_y];
-		m_pieces = new ArrayList<Piece>();
-		for(int i = 0; i < m_x; i++)
+		m_x.set((h > 0) ? h : 1);
+		m_y.set((l > 0) ? l : 1);
+		setPieces(new ArrayList<Piece>());
+		Case[][] cases = new Case[m_x.get()][m_y.get()];
+		for(int i = 0; i < m_x.get(); i++)
 		{
-			for(int j = 0; j < m_y; j++)
-				m_change[i][j] = false;
+			for(int j = 0; j < m_y.get(); j++)
+				cases[i][j].setCouleur(Case._colorVide);
 		}
+		setCases(cases);
 	}
 
 	/* Retourne l'index de chaque case ayant changee
 	 */
+
+	/*
 	public int[][] getChange()
 	{
-		int[][] tab = new int[m_x * m_y][2];
+		int[][] tab = new int[m_x.get() * m_y.get()][2];
 		int compteur = 0;
-		for(int i = 0; i < m_x; i++)
+		for(int i = 0; i < m_x.get(); i++)
 		{
-			for(int j = 0; j < m_y; j++)
+			for(int j = 0; j < m_y.get(); j++)
 			{
 				if(m_change[i][j])
 				{
@@ -58,20 +123,14 @@ public class Plateau {
 		return res;
 	}
 
-	/* Retourne la case qui correspond aux coordonnees indiquees
-	 * Remet les changements a 0 pour cette case
+	*/
+
+	/*
+	 * Retourne la case qui correspond aux coordonnees indiquees
 	 */
 	public Case getCase(int ligne, int colonne)
 	{
-		for(int i = 0; i < m_pieces.size(); i++)
-		{
-			if(m_pieces.get(i).Contains(ligne, colonne))
-			{
-				m_change[ligne][colonne] = false;
-				return new Case(m_pieces.get(i).Couleur());
-			}
-		}
-		return new Case();
+		return m_cases[ligne][colonne].get();
 	}
 
 	/* Indique si la case aux coordonnees indiquees est occupee
@@ -96,10 +155,6 @@ public class Plateau {
 		{
 			//On ajoute la piece au plateau
 			m_pieces.add(p);
-			int[][] index = p.Index();
-			//On indique que les cases correspondantes ont change
-			for(int i = 0; i < index.length; i++)
-				m_change[index[i][0]][index[i][1]] = true;
 			return true;
 		}
 		return false;
@@ -110,9 +165,9 @@ public class Plateau {
 	public boolean positionPossible(Piece p, int px, int py)
 	{
 		//Si la piece sort du plateau
-		if((px < 0) || ((px + p.Hauteur()) > m_x))
+		if((px < 0) || ((px + p.Hauteur()) > m_x.get()))
 			return false;
-		if((py < 0) || ((py + p.Largeur() > m_y)))
+		if((py < 0) || ((py + p.Largeur() > m_y.get())))
 			return false;
 		//On verifie qu'il n'y ait pas deux cases occupees superposees
 		int tx = p.getX(), ty = p.getY();
@@ -151,12 +206,7 @@ public class Plateau {
 		int py = p.getY() + y;
 		if(positionPossible(p, px, py))
 		{
-			int[][] tabA = p.Index();
 			p.Move(x, y);
-			int[][] tabB = p.Index();
-			int[][] res= diff(tabA, tabB);
-			for(int i = 0; i < res.length; i++)
-				m_change[res[i][0]][res[i][1]] = true;
 			return true;
 		}
 		return false;
@@ -164,6 +214,8 @@ public class Plateau {
 
 	//Retourne les index contenus dans a ou dans b mais pas dans les deux
 	//On suppose qu'il n'y a jamais deux fois le meme index dans un tableau
+
+	/*
 	public static int[][] diff(int[][] a, int[][] b)
 	{
 		int[][] c = new int[a.length + b.length][2];
@@ -206,4 +258,6 @@ public class Plateau {
 		}
 		return res;
 	}
+
+	*/
 }
