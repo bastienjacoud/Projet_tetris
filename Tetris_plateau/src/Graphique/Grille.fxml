@@ -46,16 +46,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Rectangle fx:id="rec103" arcHeight="5.0" arcWidth="5.0" height="32.0" stroke="BLACK" strokeType="INSIDE" width="45.0">
-               <fill>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="WHITE" offset="1.0" />
-                     </stops>
-                  </LinearGradient>
-               </fill>
-            </Rectangle>
+            <Rectangle fx:id="rec103" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="32.0" stroke="BLACK" strokeType="INSIDE" width="45.0" />
             <Rectangle fx:id="rec104" arcHeight="5.0" arcWidth="5.0" height="32.0" stroke="BLACK" strokeType="INSIDE" width="45.0" GridPane.columnIndex="1">
                <fill>
                   <LinearGradient endX="1.0" endY="1.0">
@@ -276,16 +267,7 @@
                   </LinearGradient>
                </fill>
             </Rectangle>
-            <Rectangle fx:id="rec102" arcHeight="5.0" arcWidth="5.0" height="32.0" stroke="BLACK" strokeType="INSIDE" width="45.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
-               <fill>
-                  <LinearGradient endX="1.0" endY="1.0">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="WHITE" offset="1.0" />
-                     </stops>
-                  </LinearGradient>
-               </fill>
-            </Rectangle>
+            <Rectangle fx:id="rec102" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="32.0" stroke="BLACK" strokeType="INSIDE" width="45.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <Rectangle fx:id="rec1024" arcHeight="5.0" arcWidth="5.0" height="32.0" stroke="BLACK" strokeType="INSIDE" width="45.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
                <fill>
                   <LinearGradient endX="1.0" endY="1.0">
