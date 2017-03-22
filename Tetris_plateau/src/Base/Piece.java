@@ -6,18 +6,22 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Piece
 {
 	protected BooleanProperty[][] m_forme;
-	protected ObjectProperty<Color> m_couleur;
+	protected StringProperty m_couleur;
 	//Les positions valent -1 si la piece n'est pas posee
 	protected IntegerProperty m_x, m_y;
 	//Liste des couleurs disponnibles
-	protected static Color[] _col = new Color[] {Color.BLUE, Color.GREEN, Color.YELLOW, Color.RED, Color.ORANGE};
+	//Format decimal "RRRGGGBBBAAA"
+	protected static String[] _col = new String[] {"000000255255", "000255000255", "000255255255", "255000000255", "255255000255", "255000255255"};
 
 	//Retourne une des couleurs disponibles autres que _vide
-	static public Color Color()
+	static public String Color()
 	{
 		return _col[(int)(Math.random() * _col.length)];
 	}
@@ -33,7 +37,7 @@ public class Piece
 		Init(forme, -1, -1, Color());
 	}
 
-	public Piece(boolean[][] forme, Color couleur)
+	public Piece(boolean[][] forme, String couleur)
 	{
 		Init(forme, -1, -1, couleur);
 	}
@@ -43,16 +47,16 @@ public class Piece
 		Init(forme, px, py, Color());
 	}
 
-	public Piece(boolean[][] forme, int px, int py, Color couleur)
+	public Piece(boolean[][] forme, int px, int py, String couleur)
 	{
 		Init(forme, px, py, couleur);
 	}
 
-	protected void Init(boolean[][] forme, int px, int py, Color c)
+	protected void Init(boolean[][] forme, int px, int py, String c)
 	{
-		m_x.set(px);
-		m_y.set(py);
-		m_couleur.set(c);
+		m_x = new SimpleIntegerProperty(px);
+		m_y = new SimpleIntegerProperty(py);
+		m_couleur = new SimpleStringProperty(c);
 		this.setForme(forme);
 	}
 
@@ -68,7 +72,7 @@ public class Piece
 		return forme;
 	}
 
-	public Color Couleur()
+	public String Couleur()
 	{
 		return m_couleur.get();
 	}
