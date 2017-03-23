@@ -60,13 +60,13 @@ public class Plateau {
 		return m_cases[ligne][colonne].getCouleurProperty();
 	}
 
+	public void setHauteur(int x)
 
-	public void setLargeur(int x)
 	{
 		m_x = x;
 	}
 
-	public void setLongueur(int y)
+	public void setLargeur(int y)
 	{
 		m_y = y;
 	}
