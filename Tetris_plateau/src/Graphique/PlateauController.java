@@ -43,11 +43,12 @@ public class PlateauController
 
 	protected Color NewPaint(String str, int x, int y)
 	{
+		//On passe d'une chaine de caracteres "RRRGGGBBBAAA" a une couleur RGBA
 		double r = ((100 * ((int)(str.charAt(0) - '0'))) + (10 * ((int)(str.charAt(1) - '0'))) + (int)(str.charAt(2) - '0')) / 255.0;
 		double g = ((100 * ((int)(str.charAt(3) - '0'))) + (10 * ((int)(str.charAt(4) - '0'))) + (int)(str.charAt(5) - '0')) / 255.0;
 		double b = ((100 * ((int)(str.charAt(6) - '0'))) + (10 * ((int)(str.charAt(7) - '0'))) + (int)(str.charAt(8) - '0')) / 255.0;
 		double a = ((100 * ((int)(str.charAt(9) - '0'))) + (10 * ((int)(str.charAt(10) - '0'))) + (int)(str.charAt(11) - '0')) / 255.0;
-		return new Color(r, g, b, a);
+		return new Color(0.5, g, b, a);
 	}
 
 	protected void update()
@@ -56,8 +57,10 @@ public class PlateauController
 		{
 			for(int j = 0; j < m_l; j++)
 			{
+				//Pour chaque cas, on regarde si la couleur a change
 				if(m_actu[i][j] != m_strProp[i][j].get())
 				{
+					//Si ca a change, on actualise le rectangle
 					m_actu[i][j] = m_strProp[i][j].get();
 					m_rect[i][j].setFill(NewPaint(m_actu[i][j], i, j));
 				}
@@ -77,11 +80,15 @@ public class PlateauController
 		{
 			for(int j = 0; j < m_l; j++)
 			{
-				m_actu[i][j] = "000000000000";
+				//Couleur par defaut
+				m_actu[i][j] = Case._colorVide;
+				m_rect[i][j] = new Rectangle();
+				m_rect[i][j].setFill(new Color(0.5, 0.0, 0.0, 0.0));
 				m_strProp[i][j] = new SimpleStringProperty();
 				m_strProp[i][j].bind(m_main.getPlateau().getStringProperty(i, j));
 				m_strProp[i][j].addListener((ObservableValue<? extends String> obs, String oldV, String newV) -> update());
-				m_rect[i][j] = new Rectangle();
+				//On ajoute le rectangle à la grille
+				grille.add(m_rect[i][j], j, i);
 			}
 		}
 	}

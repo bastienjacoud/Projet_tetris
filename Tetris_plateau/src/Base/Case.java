@@ -9,7 +9,7 @@ public class Case
 {
 	protected StringProperty m_couleur;
 
-	protected static String _colorVide = "00000000";
+	public static final String _colorVide = "00000000";
 
 	public Case()
 	{
