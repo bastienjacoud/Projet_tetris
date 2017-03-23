@@ -23,30 +23,30 @@ import Graphique.*;
 
 public class Main extends Application
 {
-	private Stage primaryStage;
-	private BorderPane rootLayout;
-	public ObservableList<Plateau> _plateau = FXCollections.observableArrayList();
+	private Stage m_primaryStage;
+	private BorderPane m_rootLayout;
+	public Plateau m_plateau;
 
 	public Main()
 	{
 		//On ajoute notre unique plateau
-		_plateau.add(new Plateau(20,10));
+		m_plateau = new Plateau(20,10);
 	}
 
 	@Override
 	public void start(Stage primaryStage)
 	{
-		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Plateau");
+		m_primaryStage = primaryStage;
+		m_primaryStage.setTitle("Plateau");
 
 		initRootLayout();
 		afficherPlateau();
 
 	}
 
-	public ObservableList<Plateau> getPlateau()
+	public Plateau getPlateau()
 	{
-		return _plateau;
+		return m_plateau;
 	}
 
 
@@ -57,13 +57,13 @@ public class Main extends Application
 			// Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("../Graphique/Fond.fxml"));
-            rootLayout = (BorderPane) loader.load();
+            m_rootLayout = (BorderPane) loader.load();
 
 
             // Show the scene containing the root layout.
-            Scene scene = new Scene(rootLayout);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            Scene scene = new Scene(m_rootLayout);
+            m_primaryStage.setScene(scene);
+            m_primaryStage.show();
 		}
 		catch(IOException e)
 		{
@@ -85,7 +85,7 @@ public class Main extends Application
 
 
             // Fixe l'affichage au centre
-            rootLayout.setCenter(grille);
+            m_rootLayout.setCenter(grille);
 
             // Donne au controller l'acces au Main.
             PlateauController controller = loader.getController();
@@ -101,9 +101,7 @@ public class Main extends Application
 
 	public static void main(String[] args)
 	{
-		//launch(args);
+		launch(args);
 
-		Plateau p = new Plateau(10,5);
-		p.getPieces().add(new Piece())
 	}
 }

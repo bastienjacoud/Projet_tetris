@@ -2,40 +2,41 @@ package Base;
 
 import javafx.scene.paint.Color;
 
-import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Case
 {
-	protected ObjectProperty<Color> m_couleur;
+	protected StringProperty m_couleur;
 
-	protected static Color _colorVide = new Color(0, 0, 0, 0);
+	protected static String _colorVide = "00000000";
 
 	public Case()
 	{
 		Init(_colorVide);
 	}
 
-	public Case(Color couleur)
+	public Case(String couleur)
 	{
 		Init(couleur);
 	}
 
-	protected void Init(Color c)
+	protected void Init(String c)
 	{
-		m_couleur.set(c);
+		m_couleur = new SimpleStringProperty(c);
 	}
 
-	public Color getCouleur()
+	public String getCouleur()
 	{
 		return m_couleur.get();
 	}
 
-	public ObjectProperty<Color> getCouleurProperty()
+	public StringProperty getCouleurProperty()
 	{
 		return m_couleur;
 	}
 
-	public void setCouleur(Color couleur)
+	public void setCouleur(String couleur)
 	{
 		this.m_couleur.set(couleur);
 	}

@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Plateau {
 
-	protected IntegerProperty m_x, m_y;
+	protected int m_x, m_y;
 	protected ListProperty<Piece> m_pieces;
-	protected ObjectProperty<Case>[][] m_cases;
+	protected Case[][] m_cases;
 
 	public Plateau()
 	{
@@ -24,12 +28,12 @@ public class Plateau {
 
 	public int getHauteur()
 	{
-		return m_x.get();
+		return m_x;
 	}
 
 	public int getLargeur()
 	{
-		return m_y.get();
+		return m_y;
 	}
 
 	public ArrayList<Piece> getPieces()
@@ -40,58 +44,58 @@ public class Plateau {
 		return pieces;
 	}
 
-	public Case[][] getCases()
-	{
-		Case[][] cases = new Case[m_cases.length][m_cases[0].length];
-		for(int i = 0; i < cases.length; i++)
-		{
-			for(int j = 0; j < cases[0].length; j++)
-				cases[i][j] = m_cases[i][j].get();
-		}
-		return cases;
-	}
 
-	public ObjectProperty<Case>[][] getCasesProperty()
+	public Case[][] getCases()
 	{
 		return m_cases;
 	}
 
-	public void setHauteur(int x)
+	public StringProperty getStringProperty(int ligne, int colonne)
 	{
-		m_x.set(x);
+		if((ligne < 0)
+			|| (ligne >= m_cases.length)
+			|| (colonne < 0)
+			|| (colonne >= m_cases[ligne].length))
+			return new SimpleStringProperty(Case._colorVide);
+		return m_cases[ligne][colonne].getCouleurProperty();
+	}
+
+	public void setHauteur(int x)
+
+	{
+		m_x = x;
 	}
 
 	public void setLargeur(int y)
 	{
-		m_y.set(y);
+		m_y = y;
 	}
 
 	public void setPieces(ArrayList<Piece> pieces)
 	{
-		m_pieces.setAll(pieces);
+		for(int i = 0; i < pieces.size(); i++)
+			m_pieces.add(pieces.get(i));
 	}
 
+	/*
 	public void setCases(Case[][] cases)
 	{
-		for(int i = 0; i < m_cases.length; i++)
-		{
-			for(int j = 0; j < m_cases[0].length; j++)
-				m_cases[i][j].set(cases[i][j]);
-		}
+		m_cases = cases;
 	}
+	*/
 
 	protected void Init(int h, int l)
 	{
-		m_x.set((h > 0) ? h : 1);
-		m_y.set((l > 0) ? l : 1);
+		m_x = (h > 0) ? h : 1;
+		m_y = (l > 0) ? l : 1;
+		m_pieces = new SimpleListProperty<Piece>();
 		setPieces(new ArrayList<Piece>());
-		Case[][] cases = new Case[m_x.get()][m_y.get()];
-		for(int i = 0; i < m_x.get(); i++)
+		m_cases = new Case[m_x][m_y];
+		for(int i = 0; i < m_x; i++)
 		{
-			for(int j = 0; j < m_y.get(); j++)
-				cases[i][j].setCouleur(Case._colorVide);
+			for(int j = 0; j < m_y; j++)
+				m_cases[i][j] = new Case(Case._colorVide);
 		}
-		setCases(cases);
 	}
 
 	/* Retourne l'index de chaque case ayant changee
@@ -128,10 +132,12 @@ public class Plateau {
 	/*
 	 * Retourne la case qui correspond aux coordonnees indiquees
 	 */
+	/*
 	public Case getCase(int ligne, int colonne)
 	{
 		return m_cases[ligne][colonne].get();
 	}
+	*/
 
 	/* Indique si la case aux coordonnees indiquees est occupee
 	 */
@@ -165,9 +171,9 @@ public class Plateau {
 	public boolean positionPossible(Piece p, int px, int py)
 	{
 		//Si la piece sort du plateau
-		if((px < 0) || ((px + p.Hauteur()) > m_x.get()))
+		if((px < 0) || ((px + p.Hauteur()) > m_x))
 			return false;
-		if((py < 0) || ((py + p.Largeur() > m_y.get())))
+		if((py < 0) || ((py + p.Largeur() > m_y)))
 			return false;
 		//On verifie qu'il n'y ait pas deux cases occupees superposees
 		int tx = p.getX(), ty = p.getY();
