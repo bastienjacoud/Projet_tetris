@@ -40,6 +40,7 @@ public class Main extends Application
 		m_primaryStage.setTitle("Plateau");
 
 		initRootLayout();
+
 		afficherPlateau();
 
 	}
@@ -84,12 +85,13 @@ public class Main extends Application
             AnchorPane grille = (AnchorPane) loader.load();
 
 
-            // Fixe l'affichage au centre
-            m_rootLayout.setCenter(grille);
 
             // Donne au controller l'acces au Main.
             PlateauController controller = loader.getController();
             controller.setMain(this);
+
+            // Fixe l'affichage au centre
+            m_rootLayout.setCenter(grille);
         }
         catch (IOException e)
         {

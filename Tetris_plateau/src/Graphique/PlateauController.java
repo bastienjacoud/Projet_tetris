@@ -6,10 +6,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import Main.*;
 
 import Base.Plateau;
@@ -43,12 +45,23 @@ public class PlateauController
 
 	protected Color NewPaint(String str, int x, int y)
 	{
-		//On passe d'une chaine de caracteres "RRRGGGBBBAAA" a une couleur RGBA
-		double r = ((100 * ((int)(str.charAt(0) - '0'))) + (10 * ((int)(str.charAt(1) - '0'))) + (int)(str.charAt(2) - '0')) / 255.0;
-		double g = ((100 * ((int)(str.charAt(3) - '0'))) + (10 * ((int)(str.charAt(4) - '0'))) + (int)(str.charAt(5) - '0')) / 255.0;
-		double b = ((100 * ((int)(str.charAt(6) - '0'))) + (10 * ((int)(str.charAt(7) - '0'))) + (int)(str.charAt(8) - '0')) / 255.0;
-		double a = ((100 * ((int)(str.charAt(9) - '0'))) + (10 * ((int)(str.charAt(10) - '0'))) + (int)(str.charAt(11) - '0')) / 255.0;
-		return new Color(0.5, g, b, a);
+		switch(str)
+		{
+			case "1" :
+				return Color.RED;
+			case "2" :
+				return Color.GREEN;
+			case "3" :
+				return Color.BLUE;
+			case "4" :
+				return Color.YELLOW;
+			case "5" :
+				return Color.ORANGE;
+			case "6" :
+				return Color.PURPLE;
+			default :
+				return Color.TRANSPARENT;
+		}
 	}
 
 	protected void update()
@@ -83,7 +96,12 @@ public class PlateauController
 				//Couleur par defaut
 				m_actu[i][j] = Case._colorVide;
 				m_rect[i][j] = new Rectangle();
-				m_rect[i][j].setFill(new Color(0.5, 0.0, 0.0, 0.0));
+				m_rect[i][j].setWidth(30);
+				m_rect[i][j].setHeight(30);
+				m_rect[i][j].setStroke(Color.BLACK);
+				m_rect[i][j].setStrokeWidth(2);
+				m_rect[i][j].setStrokeType(StrokeType.INSIDE);
+				m_rect[i][j].setFill(Color.BLUE);
 				m_strProp[i][j] = new SimpleStringProperty();
 				m_strProp[i][j].bind(m_main.getPlateau().getStringProperty(i, j));
 				m_strProp[i][j].addListener((ObservableValue<? extends String> obs, String oldV, String newV) -> update());
@@ -91,5 +109,6 @@ public class PlateauController
 				grille.add(m_rect[i][j], j, i);
 			}
 		}
+
 	}
 }

@@ -18,7 +18,7 @@ public class Piece
 	protected IntegerProperty m_x, m_y;
 	//Liste des couleurs disponnibles
 	//Format decimal "RRRGGGBBBAAA"
-	protected static String[] _col = new String[] {"000000255255", "000255000255", "000255255255", "255000000255", "255255000255", "255000255255"};
+	protected static String[] _col = new String[] {"1", "2", "3", "4", "5", "6"};
 
 	//Retourne une des couleurs disponibles autres que _vide
 	static public String Color()
