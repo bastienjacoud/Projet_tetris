@@ -30,7 +30,7 @@ public class Main extends Application
 	public Main()
 	{
 		//On ajoute notre unique plateau
-		m_plateau = new Plateau(10,15);
+		m_plateau = new Plateau(10,10);
 	}
 
 	@Override

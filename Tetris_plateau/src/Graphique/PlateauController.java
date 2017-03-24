@@ -96,8 +96,11 @@ public class PlateauController
 		this.m_main = main;
 		m_h = m_main.getPlateau().getHauteur();
 		m_l = m_main.getPlateau().getLargeur();
-		int maxi = 30 * Math.max(m_h, m_l);
-		grille.setPrefSize(maxi, maxi);
+		grille.getChildren().clear();
+		grille.getColumnConstraints().clear();
+		grille.getRowConstraints().clear();
+		grille.setPrefSize(30*m_h, 30*m_l);
+
 		m_rect = new Rectangle[m_h][m_l];
 		m_actu = new String[m_h][m_l];
 		m_strProp = new SimpleStringProperty[m_h][m_l];
@@ -131,6 +134,7 @@ public class PlateauController
 				grille.add(m_rect[i][j], j, i);
 			}
 		}
+
 
 	}
 }
