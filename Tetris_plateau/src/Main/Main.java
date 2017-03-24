@@ -30,7 +30,7 @@ public class Main extends Application
 	public Main()
 	{
 		//On ajoute notre unique plateau
-		m_plateau = new Plateau(20,10);
+		m_plateau = new Plateau(10,15);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class Main extends Application
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("../Graphique/Grille.fxml"));
             AnchorPane grille = (AnchorPane) loader.load();
-
+            grille.setPrefSize(30 * m_plateau.getLargeur(), 30 * m_plateau.getHauteur());
 
 
             // Donne au controller l'acces au Main.
