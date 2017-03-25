@@ -104,7 +104,11 @@ public class Piece
 		for(int i = 0; i < forme.length; i++)
 		{
 			for(int j = 0; j < forme[0].length; j++)
+			{
+				m_forme[i][j] = new SimpleBooleanProperty();
 				m_forme[i][j].set(forme[i][j]);
+			}
+
 		}
 	}
 

@@ -41,7 +41,7 @@ public class Main extends Application
 
 		initRootLayout();
 
-		afficherPlateau();
+		afficherPlateau(m_rootLayout);
 
 	}
 
@@ -75,7 +75,7 @@ public class Main extends Application
 	/**
      * Shows the person overview inside the root layout.
      */
-    public void afficherPlateau()
+    public void afficherPlateau(BorderPane rootLayout)
     {
         try
         {
@@ -91,7 +91,7 @@ public class Main extends Application
             controller.setMain(this);
 
             // Fixe l'affichage au centre
-            m_rootLayout.setCenter(grille);
+            rootLayout.setCenter(grille);
         }
         catch (IOException e)
         {

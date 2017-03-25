@@ -1,5 +1,7 @@
 package Modele;
 
+import javafx.scene.paint.Color;
+
 import Base.*;
 
 public class CasseTete {
@@ -23,7 +25,12 @@ public class CasseTete {
 
 	public void jouer()
 	{
-
+		boolean[][] forme1 = new boolean[][] {{true,true,true},
+											 {false,false,false},
+											 {false,false,false}};
+		boolean[][] forme = new boolean[][] {{true}};
+		Piece p = new Piece(forme1, 1,1,"5");
+		_p.getPieces().add(p);
 	}
 
 

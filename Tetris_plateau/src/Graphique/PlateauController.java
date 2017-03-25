@@ -113,13 +113,15 @@ public class PlateauController
 				m_rect[i][j] = new Rectangle();
 				m_rect[i][j].setWidth(30);
 				m_rect[i][j].setHeight(30);
-				if((i < 3) || (((2*i + j) % 7) == 4) || (((2*i + j) % 7) == 1))
+
+				//if((i < 3) || (((2*i + j) % 7) == 4) || (((2*i + j) % 7) == 1))
 				{
 					m_rect[i][j].setFill(Color.TRANSPARENT);
 					m_rect[i][j].setStroke(Color.GREY);
 					m_rect[i][j].setStrokeType(StrokeType.INSIDE);
 					m_rect[i][j].setStrokeWidth(1);
 				}
+				/*
 				else
 				{
 					m_rect[i][j].setFill(Color.BLUE);
@@ -127,6 +129,7 @@ public class PlateauController
 					m_rect[i][j].setStrokeType(StrokeType.INSIDE);
 					m_rect[i][j].setStrokeWidth(1);
 				}
+				*/
 				m_strProp[i][j] = new SimpleStringProperty();
 				m_strProp[i][j].bind(m_main.getPlateau().getStringProperty(i, j));
 				m_strProp[i][j].addListener((ObservableValue<? extends String> obs, String oldV, String newV) -> update());
