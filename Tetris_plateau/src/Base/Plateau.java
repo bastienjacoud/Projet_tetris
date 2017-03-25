@@ -161,6 +161,9 @@ public class Plateau {
 		{
 			//On ajoute la piece au plateau
 			m_pieces.add(p);
+			int[][] index = p.Index();
+			for(int i = 0; i < index.length; i++)
+				m_cases[index[i][0]][index[i][1]].setCouleur(p.Couleur());
 			return true;
 		}
 		return false;
@@ -210,18 +213,47 @@ public class Plateau {
 		y = (y == 0) ? 0 : (y > 0) ?1 : -1;
 		int px = p.getX() + x;
 		int py = p.getY() + y;
+		int[][] oldp = p.Index();
 		if(positionPossible(p, px, py))
 		{
 			p.Move(x, y);
+			int[][] difp = diff(oldp, p.Index());
+			for(int i = 0; i < difp.length; i++)
+			{
+				if(p.Contains(difp[i][0], difp[i][1]))
+					m_cases[difp[i][0]][difp[i][1]].setCouleur(p.Couleur());
+				else m_cases[difp[i][0]][difp[i][1]].setCouleur(Case._colorVide);
+			}
 			return true;
 		}
 		return false;
 	}
 
+	/* Rotationne la piece
+	 * p : piece a rotater
+	 * s : false = gauche (anti-horaire), true = droite
+	 */
+	public boolean Rotate(Piece p, boolean s)
+	{
+		int[][] oldp = p.Index();
+		p.Rotate(s);
+		if(positionPossible(p, p.getX(), p.getY()))
+		{
+			int[][] difp = diff(oldp, p.Index());
+			for(int i = 0; i < difp.length; i++)
+			{
+				if(p.Contains(difp[i][0], difp[i][1]))
+					m_cases[difp[i][0]][difp[i][1]].setCouleur(p.Couleur());
+				else m_cases[difp[i][0]][difp[i][1]].setCouleur(Case._colorVide);
+			}
+			return true;
+		}
+		p.Rotate(!s);
+		return false;
+	}
+
 	//Retourne les index contenus dans a ou dans b mais pas dans les deux
 	//On suppose qu'il n'y a jamais deux fois le meme index dans un tableau
-
-	/*
 	public static int[][] diff(int[][] a, int[][] b)
 	{
 		int[][] c = new int[a.length + b.length][2];
@@ -264,6 +296,4 @@ public class Plateau {
 		}
 		return res;
 	}
-
-	*/
 }
