@@ -11,7 +11,8 @@ import java.io.IOException;
 import Main.*;
 import Modele.CasseTete;
 
-public class MainCasseTete extends Application {
+public class MainCasseTete extends Application
+{
 
 	private Stage m_primaryStage;
 	private BorderPane m_rootLayout;
