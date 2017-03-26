@@ -14,8 +14,8 @@ import Modele.CasseTete;
 public class MainCasseTete extends Main
 {
 
-	private Stage m_primaryStage;
-	private BorderPane m_rootLayout;
+	//private Stage m_primaryStage;
+	//private BorderPane m_rootLayout;
 	//public Main m;
 	//public CasseTete c;
 
