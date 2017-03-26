@@ -1,9 +1,12 @@
 package Modele;
 
-public class ModeleTetris {
+import Base.Plateau;
 
-	public ModeleTetris() {
-		// TODO Auto-generated constructor stub
+public class ModeleTetris extends Plateau
+{
+	public ModeleTetris()
+	{
+		super(20, 10);
 	}
 
 }
