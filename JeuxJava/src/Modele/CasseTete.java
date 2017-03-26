@@ -32,9 +32,9 @@ public class CasseTete extends Plateau
 											 {false,true,false},
 											 {false,false,false}};
 		boolean[][] forme = new boolean[][] {{true}};
-		Piece p = new Piece(forme1, 1,1,"5");
+		Piece p = new Piece(forme1, -1,-1,"5");
 		System.out.println("1");
-		poserPiece(p, 1, 1);
+		poserPiece(p, 1, 2);
 	}
 
 

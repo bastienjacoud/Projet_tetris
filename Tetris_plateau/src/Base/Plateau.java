@@ -158,6 +158,7 @@ public class Plateau
 		{
 			//On ajoute la piece au plateau
 			m_pieces.add(p);
+			p.setPos(px, py);
 			int[][] index = p.Index();
 			for(int i = 0; i < index.length; i++)
 			{
