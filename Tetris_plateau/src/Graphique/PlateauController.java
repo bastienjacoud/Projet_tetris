@@ -77,15 +77,8 @@ public class PlateauController
 					m_actu[i][j] = m_strProp[i][j].get();
 					m_rect[i][j].setFill(NewPaint(m_actu[i][j], i, j));
 					if(m_actu[i][j] == Case._colorVide)
-					{
 						m_rect[i][j].setStroke(Color.GREY);
-						m_rect[i][j].setStrokeType(StrokeType.CENTERED);
-					}
-					else
-					{
-						m_rect[i][j].setStroke(Color.BLACK);
-						m_rect[i][j].setStrokeType(StrokeType.INSIDE);
-					}
+					else m_rect[i][j].setStroke(Color.BLACK);
 				}
 			}
 		}
@@ -113,23 +106,10 @@ public class PlateauController
 				m_rect[i][j] = new Rectangle();
 				m_rect[i][j].setWidth(30);
 				m_rect[i][j].setHeight(30);
-
-				//if((i < 3) || (((2*i + j) % 7) == 4) || (((2*i + j) % 7) == 1))
-				{
-					m_rect[i][j].setFill(Color.TRANSPARENT);
-					m_rect[i][j].setStroke(Color.GREY);
-					m_rect[i][j].setStrokeType(StrokeType.INSIDE);
-					m_rect[i][j].setStrokeWidth(1);
-				}
-				/*
-				else
-				{
-					m_rect[i][j].setFill(Color.BLUE);
-					m_rect[i][j].setStroke(Color.BLACK);
-					m_rect[i][j].setStrokeType(StrokeType.INSIDE);
-					m_rect[i][j].setStrokeWidth(1);
-				}
-				*/
+				m_rect[i][j].setFill(Color.TRANSPARENT);
+				m_rect[i][j].setStroke(Color.GREY);
+				m_rect[i][j].setStrokeType(StrokeType.INSIDE);
+				m_rect[i][j].setStrokeWidth(1);
 				m_strProp[i][j] = new SimpleStringProperty();
 				m_strProp[i][j].bind(m_main.getPlateau().getStringProperty(i, j));
 				m_strProp[i][j].addListener((ObservableValue<? extends String> obs, String oldV, String newV) -> update());
@@ -137,7 +117,5 @@ public class PlateauController
 				grille.add(m_rect[i][j], j, i);
 			}
 		}
-
-
 	}
 }

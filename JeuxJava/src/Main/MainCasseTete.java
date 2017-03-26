@@ -11,18 +11,19 @@ import java.io.IOException;
 import Main.*;
 import Modele.CasseTete;
 
-public class MainCasseTete extends Application
+public class MainCasseTete extends Main
 {
 
-	private Stage m_primaryStage;
+	//private Stage m_primaryStage;
 	private BorderPane m_rootLayout;
-	public Main m;
-	public CasseTete c;
+	//public Main m;
+	//public CasseTete c;
 
 	public MainCasseTete()
 	{
-		m = new Main();
-		c = new CasseTete();
+		super();
+		//m = new Main();
+		m_plateau = new CasseTete();
 	}
 
 	@Override
@@ -32,11 +33,8 @@ public class MainCasseTete extends Application
 
 		initRootLayout();
 
-		m.afficherPlateau(m_rootLayout);
-		c.jouer();
-
-
-
+		afficherPlateau(m_rootLayout, this);
+		m_plateau.jouer();
 	}
 
 	public void initRootLayout()
