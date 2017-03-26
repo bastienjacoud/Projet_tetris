@@ -1,51 +1,37 @@
 package Main;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import java.io.IOException;
+
+import Graphique.PlateauController;
+import Modele.ModeleTetris;
+import Vue.TetrisController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
-import Main.Main;
-import Modele.CasseTete;
-import Vue.CasseTeteController;
-
-public class MainCasseTete extends Main
+public class MainTetris extends Main
 {
 
-	public MainCasseTete()
+	public MainTetris()
 	{
-		m_plateau = new CasseTete();
+		m_plateau = new ModeleTetris();
 	}
 
 	@Override
 	public void start(Stage primaryStage)
 	{
 		m_primaryStage = primaryStage;
-		m_primaryStage.setTitle("Casse Tête");
+		m_primaryStage.setTitle("Tetris");
 
 		initRootLayout();
 
-		afficherPlateau(m_rootLayout, this, "../Vue/VueCasseTete.fxml");
-
-		
-		m_primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event) {
-				m_plateau.handleKeyPressed(event.getCode());
-			}
-
-		});
-		
+		//afficherPlateau(m_rootLayout, this);
+		afficherPlateau(m_rootLayout, this, "../Vue/VueTetris.fxml");
 		m_plateau.jouer();
-
 	}
+
 
 	public void initRootLayout()
 	{
@@ -72,4 +58,5 @@ public class MainCasseTete extends Main
 	{
 		launch(args);
 	}
+
 }

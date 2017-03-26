@@ -1,22 +1,13 @@
 package Graphique;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import Main.*;
-
-import Base.Plateau;
-
-import java.util.ArrayList;
 
 import Base.Case;
 
@@ -24,13 +15,12 @@ public class PlateauController
 {
 	protected Main m_main;
 	protected int m_h, m_l;
-	//protected ObservableList<Case> m_cases = FXCollections.observableArrayList();
 	protected SimpleStringProperty[][] m_strProp;
 	protected String[][] m_actu;
 	protected Rectangle[][] m_rect;
 
 	@FXML
-	private GridPane grille;
+	protected GridPane grille;
 
 	public PlateauController()
 	{
@@ -66,6 +56,7 @@ public class PlateauController
 
 	protected void update()
 	{
+		System.out.println("Ustart");
 		for(int i = 0; i < m_h; i++)
 		{
 			for(int j = 0; j < m_l; j++)
@@ -82,6 +73,7 @@ public class PlateauController
 				}
 			}
 		}
+		System.out.println("Ustop");
 	}
 
 	public void setMain(Main main)

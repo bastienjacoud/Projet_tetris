@@ -77,11 +77,16 @@ public class Main extends Application
      */
     public void afficherPlateau(BorderPane rootLayout, Main m)
     {
+        afficherPlateau(rootLayout, m, "../Graphique/Grille.fxml");
+    }
+
+    public void afficherPlateau(BorderPane rootLayout, Main m, String str)
+    {
         try
         {
             // Charge l'affichage du plateau.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("../Graphique/Grille.fxml"));
+            loader.setLocation(Main.class.getResource(str));
             AnchorPane grille = (AnchorPane) loader.load();
             grille.setPrefSize(30 * m_plateau.getLargeur(), 30 * m_plateau.getHauteur());
 
