@@ -39,10 +39,7 @@ public class Plateau
 
 	public ArrayList<Piece> getPieces()
 	{
-		ArrayList<Piece> pieces = new ArrayList<Piece>();
-		for(int i=0;i<pieces.size();i++)
-			pieces.add(m_pieces.get(i));
-		return pieces;
+		return m_pieces;
 	}
 
 

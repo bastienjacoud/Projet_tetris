@@ -8,13 +8,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import Main.*;
+import Main.Main;
 import Modele.CasseTete;
 
 public class MainCasseTete extends Main
 {
 
-	//private Stage m_primaryStage;
+	private Stage m_primaryStage;
 	private BorderPane m_rootLayout;
 	//public Main m;
 	//public CasseTete c;
