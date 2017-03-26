@@ -1,6 +1,5 @@
 package Main;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -27,7 +26,8 @@ public class MainCasseTete extends Main
 	}
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage)
+	{
 		m_primaryStage = primaryStage;
 		m_primaryStage.setTitle("Casse Tête");
 
@@ -58,7 +58,8 @@ public class MainCasseTete extends Main
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		launch(args);
 	}
 }

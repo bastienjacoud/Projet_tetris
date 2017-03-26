@@ -9,4 +9,8 @@ public class ModeleTetris extends Plateau
 		super(20, 10);
 	}
 
+	public void jouer()
+	{
+		//
+	}
 }
