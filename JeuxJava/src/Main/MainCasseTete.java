@@ -1,6 +1,7 @@
 package Main;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -10,6 +11,7 @@ import java.io.IOException;
 
 import Main.Main;
 import Modele.CasseTete;
+import Vue.CasseTeteController;
 
 public class MainCasseTete extends Main
 {
@@ -17,7 +19,7 @@ public class MainCasseTete extends Main
 	//private Stage m_primaryStage;
 	//private BorderPane m_rootLayout;
 	//public Main m;
-	//public CasseTete c;
+	public CasseTete c;
 
 	public MainCasseTete()
 	{
@@ -34,7 +36,10 @@ public class MainCasseTete extends Main
 		initRootLayout();
 
 		afficherPlateau(m_rootLayout, this);
+		CasseTeteController controller = new CasseTeteController((CasseTete)m_plateau, this);
+		controller.handle(keyEvent -> super.m_plateau.move(c.sortable,0,1));
 		m_plateau.jouer();
+
 	}
 
 	public void initRootLayout()
