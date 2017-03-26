@@ -23,8 +23,8 @@ import Graphique.*;
 
 public class Main extends Application
 {
-	private Stage m_primaryStage;
-	private BorderPane m_rootLayout;
+	protected Stage m_primaryStage;
+	protected BorderPane m_rootLayout;
 	public Plateau m_plateau;
 
 	public Main()
@@ -41,7 +41,7 @@ public class Main extends Application
 
 		initRootLayout();
 
-		afficherPlateau(m_rootLayout);
+		afficherPlateau(m_rootLayout, this);
 
 	}
 
@@ -75,7 +75,7 @@ public class Main extends Application
 	/**
      * Shows the person overview inside the root layout.
      */
-    public void afficherPlateau(BorderPane rootLayout)
+    public void afficherPlateau(BorderPane rootLayout, Main m)
     {
         try
         {
@@ -88,7 +88,7 @@ public class Main extends Application
 
             // Donne au controller l'acces au Main.
             PlateauController controller = loader.getController();
-            controller.setMain(this);
+            controller.setMain(m);
 
             // Fixe l'affichage au centre
             rootLayout.setCenter(grille);

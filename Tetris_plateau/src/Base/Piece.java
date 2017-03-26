@@ -12,10 +12,10 @@ import javafx.beans.property.StringProperty;
 
 public class Piece
 {
-	protected BooleanProperty[][] m_forme;
+	protected boolean[][] m_forme;
 	protected StringProperty m_couleur;
 	//Les positions valent -1 si la piece n'est pas posee
-	protected IntegerProperty m_x, m_y;
+	protected int m_x, m_y;
 	//Liste des couleurs disponnibles
 	//Format decimal "RRRGGGBBBAAA"
 	protected static String[] _col = new String[] {"1", "2", "3", "4", "5", "6"};
@@ -54,8 +54,8 @@ public class Piece
 
 	protected void Init(boolean[][] forme, int px, int py, String c)
 	{
-		m_x = new SimpleIntegerProperty(px);
-		m_y = new SimpleIntegerProperty(py);
+		m_x = px;
+		m_y = py;
 		m_couleur = new SimpleStringProperty(c);
 		this.setForme(forme);
 	}
@@ -67,7 +67,7 @@ public class Piece
 		for(int i = 0; i < forme.length; i++)
 		{
 			for(int j = 0; j < forme[0].length; j++)
-				forme[i][j] = m_forme[i][j].get();
+				forme[i][j] = m_forme[i][j];
 		}
 		return forme;
 	}
@@ -83,30 +83,29 @@ public class Piece
 	 */
 	public boolean Contains(int x, int y)
 	{
-		if((m_x.get() < 0) || (m_y.get() < 0))
+		if((getX() < 0) || (getY() < 0))
 			return false;
 		//On adapte les index a la piece
-		x -= m_x.get();
-		y -= m_y.get();
+		x -= getX();
+		y -= getY();
 		if((x >= 0)
 			&& (x < m_forme.length)
 			&& (y >= 0)
 			&& (y < m_forme[0].length))
 		{
-			return m_forme[x][y].get();
+			return m_forme[x][y];
 		}
 		return false;
 	}
 
 	public void setForme(boolean[][] forme)
 	{
-		m_forme = new SimpleBooleanProperty[forme.length][forme[0].length];
+		m_forme = new boolean[forme.length][forme[0].length];
 		for(int i = 0; i < forme.length; i++)
 		{
 			for(int j = 0; j < forme[0].length; j++)
 			{
-				m_forme[i][j] = new SimpleBooleanProperty();
-				m_forme[i][j].set(forme[i][j]);
+				m_forme[i][j] = forme[i][j];
 			}
 
 		}
@@ -116,24 +115,24 @@ public class Piece
 	{
 		if((x < 0) || (y < 0))
 		{
-			m_x.set(-1);
-			m_y.set(-1);
+			m_x = -1;
+			m_y = -1;
 		}
 		else
 		{
-			m_x.set(x);
-			m_y.set(y);
+			m_x = x;
+			m_y = y;
 		}
 	}
 
 	public int getX()
 	{
-		return m_x.get();
+		return m_x;
 	}
 
 	public int getY()
 	{
-		return m_y.get();
+		return m_y;
 	}
 
 	public int Hauteur()
@@ -150,7 +149,7 @@ public class Piece
 	 */
 	public int[][] Index()
 	{
-		if((m_x.get() < 0) || (m_y.get() < 0))
+		if((getX() < 0) || (getY() < 0))
 			return new int[0][0];
 		int[][] tab = new int[m_forme.length * m_forme[0].length][2];
 		int compteur = 0;
@@ -158,10 +157,10 @@ public class Piece
 		{
 			for(int j = 0; j < m_forme[0].length; j++)
 			{
-				if(m_forme[i][j].get())
+				if(m_forme[i][j])
 				{
-					tab[compteur][0] = m_x.get() + i;
-					tab[compteur][1] = m_y.get() + j;
+					tab[compteur][0] = getX() + i;
+					tab[compteur][1] = getY() + j;
 					compteur++;
 				}
 			}
@@ -185,13 +184,13 @@ public class Piece
 		x = (x == 0) ? 0 : (x > 0) ? 1 : -1;
 		y = (y == 0) ? 0 : (y > 0) ?1 : -1;
 		if(((x * y) == 0)
-			&&(m_x.get() >= 0)
-			&& (m_y.get() >= 0)
-			&& ((m_x.get() + x) >= 0)
-			&& ((m_y.get() + y) >= 0))
+			&& (getX() >= 0)
+			&& (getY() >= 0)
+			&& ((getX() + x) >= 0)
+			&& ((getY() + y) >= 0))
 		{
-			m_x.set(m_x.get() + x);
-			m_y.set(m_y.get() + y);
+			m_x += x;
+			m_y += y;
 			return true;
 		}
 		System.out.println("Erreur dans les index");
@@ -208,10 +207,10 @@ public class Piece
 		x = (x == 0) ? 0 : (x > 0) ? 1 : -1;
 		y = (y == 0) ? 0 : (y > 0) ?1 : -1;
 		if(((x * y) == 0)
-			&& (m_x.get() >= 0)
-			&& (m_y.get() >= 0)
-			&& ((m_x.get() + x) >= 0)
-			&& ((m_y.get() + y) >= 0))
+			&& (getX() >= 0)
+			&& (getY() >= 0)
+			&& ((getX() + x) >= 0)
+			&& ((getY() + y) >= 0))
 			{
 				int[][] tab = new int[m_forme.length * m_forme[0].length][2];
 				int compteur = 0;
@@ -220,25 +219,25 @@ public class Piece
 				{
 					for(int j = 0; j < m_forme[0].length; j++)
 					{
-						if(m_forme[i][j].get())
+						if(m_forme[i][j])
 						{
 							switch(x)
 							{
 								case 1:
 									//Vers le bas
-									if((i == (m_forme.length - 1)) || !m_forme[i+1][j].get())
+									if((i == (m_forme.length - 1)) || !m_forme[i+1][j])
 									{
-										tab[compteur][0] = m_x.get() + i + 1;
-										tab[compteur][1] = m_y.get() + j;
+										tab[compteur][0] = getX() + i + 1;
+										tab[compteur][1] = getY() + j;
 										compteur++;
 									}
 									break;
 								case -1:
 									//Vers le haut
-									if((i == 0) || !m_forme[i-1][j].get())
+									if((i == 0) || !m_forme[i-1][j])
 									{
-										tab[compteur][0] = m_x.get() + i - 1;
-										tab[compteur][1] = m_y.get() + j;
+										tab[compteur][0] = getX() + i - 1;
+										tab[compteur][1] = getY() + j;
 										compteur++;
 									}
 									break;
@@ -249,19 +248,19 @@ public class Piece
 							{
 								case 1:
 									//Vers la droite
-									if((j == (m_forme[0].length - 1)) || !m_forme[i][j+1].get())
+									if((j == (m_forme[0].length - 1)) || !m_forme[i][j+1])
 									{
-										tab[compteur][0] = m_x.get() + i;
-										tab[compteur][1] = m_y.get() + j + 1;
+										tab[compteur][0] = getX() + i;
+										tab[compteur][1] = getY() + j + 1;
 										compteur++;
 									}
 									break;
 								case -1:
 									//Vers le haut
-									if((j == 0) || !m_forme[i][j-1].get())
+									if((j == 0) || !m_forme[i][j-1])
 									{
-										tab[compteur][0] = m_x.get() + i;
-										tab[compteur][1] = m_y.get() + j - 1;
+										tab[compteur][0] = getX() + i;
+										tab[compteur][1] = getY() + j - 1;
 										compteur++;
 									}
 									break;
@@ -295,7 +294,7 @@ public class Piece
 			for(int i = 0; i < forme.length; i++)
 			{
 				for(int j = 0; j < forme[0].length; j++)
-					forme[i][j] = m_forme[m_forme.length - (j + 1)][i].get();
+					forme[i][j] = m_forme[m_forme.length - (j + 1)][i];
 			}
 		}
 		else
@@ -304,10 +303,31 @@ public class Piece
 			for(int i = 0; i < forme.length; i++)
 			{
 				for(int j = 0; j < forme[0].length; j++)
-					forme[i][j] = m_forme[j][forme.length - (i + 1)].get();
+					forme[i][j] = m_forme[j][forme.length - (i + 1)];
 			}
 		}
 		this.setForme(forme);
+	}
+
+	public boolean DelLigne(int ligne)
+	{
+		if((ligne >= getX())
+			&& (ligne < (getX() + Hauteur())))
+		{
+			int id = ligne - getX();
+			m_x++;
+			boolean[][] newF = new boolean[Hauteur() - 1][Largeur()];
+			for(int i = 0, i2 = 0; i < Hauteur(); i++, i2++)
+			{
+				if(i == id)
+					i++;
+				for(int j = 0; j < Largeur(); j++)
+					newF[i2][j] = m_forme[i][j];
+			}
+			setForme(newF);
+			return true;
+		}
+		return false;
 	}
 
 	/* Retourne la liste des cases devant etre libres pour effectuer une rotation a 90° de la piece
@@ -323,7 +343,7 @@ public class Piece
 		{
 			for(int j = 0; j < f[0].length; j++)
 			{
-				if((i >= m_forme.length) || (j >= m_forme[0].length) || !m_forme[i][j].get())
+				if((i >= m_forme.length) || (j >= m_forme[0].length) || !m_forme[i][j])
 				{
 					tab[compteur][0] = i;
 					tab[compteur][1] = j;

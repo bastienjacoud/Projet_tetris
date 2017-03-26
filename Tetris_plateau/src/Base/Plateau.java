@@ -10,7 +10,8 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Plateau {
+public class Plateau
+{
 
 	protected int m_x, m_y;
 	protected ArrayList<Piece> m_pieces;
@@ -159,7 +160,10 @@ public class Plateau {
 			m_pieces.add(p);
 			int[][] index = p.Index();
 			for(int i = 0; i < index.length; i++)
+			{
 				m_cases[index[i][0]][index[i][1]].setCouleur(p.Couleur());
+				System.out.println("Case [" + index[i][0] + "][" + index[i][1] + "] modifiee.");
+			}
 			return true;
 		}
 		return false;
@@ -179,13 +183,12 @@ public class Plateau {
 		p.setPos(px,  py);
 		int[][] id = p.Index();
 		//On remet la piece a sa position initiale
+		p.setPos(-1, -1);
+		boolean test = false;
+		for(int i = 0; (i < id.length) && !test; i++)
+			test = Occupee(id[i][0], id[i][1]);
 		p.setPos(tx, ty);
-		for(int i = 0; i < id.length; i++)
-		{
-			if(Occupee(id[i][0], id[i][1]))
-				return false;
-		}
-		return true;
+		return !test;
 	}
 
 	/* Retourne l'index d'une piece donnee dans la liste.
@@ -205,17 +208,22 @@ public class Plateau {
 	 */
 	public boolean Move(Piece p, int x, int y)
 	{
+		System.out.println("Move 1");
 		x = (x == 0) ? 0 : (x > 0) ? 1 : -1;
 		y = (y == 0) ? 0 : (y > 0) ?1 : -1;
 		int px = p.getX() + x;
 		int py = p.getY() + y;
 		int[][] oldp = p.Index();
+		System.out.println("Move 2");
 		if(positionPossible(p, px, py))
 		{
+			System.out.println("Move 3");
 			p.Move(x, y);
 			int[][] difp = diff(oldp, p.Index());
+			System.out.println("Move 4");
 			for(int i = 0; i < difp.length; i++)
 			{
+				System.out.println("Move 5." + i);
 				if(p.Contains(difp[i][0], difp[i][1]))
 					m_cases[difp[i][0]][difp[i][1]].setCouleur(p.Couleur());
 				else m_cases[difp[i][0]][difp[i][1]].setCouleur(Case._colorVide);
@@ -291,5 +299,10 @@ public class Plateau {
 			res[i][1] = c[i][1];
 		}
 		return res;
+	}
+
+	public void jouer()
+	{
+		//
 	}
 }
