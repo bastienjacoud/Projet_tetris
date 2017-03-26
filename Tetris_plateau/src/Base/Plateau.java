@@ -13,7 +13,7 @@ import javafx.beans.property.StringProperty;
 public class Plateau {
 
 	protected int m_x, m_y;
-	protected ListProperty<Piece> m_pieces;
+	protected ArrayList<Piece> m_pieces;
 	protected Case[][] m_cases;
 
 	public Plateau()
@@ -38,10 +38,7 @@ public class Plateau {
 
 	public ArrayList<Piece> getPieces()
 	{
-		ArrayList<Piece> pieces = new ArrayList<Piece>();
-		for(int i=0;i<pieces.size();i++)
-			pieces.add(m_pieces.get(i));
-		return pieces;
+		return m_pieces;
 	}
 
 
@@ -88,8 +85,7 @@ public class Plateau {
 	{
 		m_x = (h > 0) ? h : 1;
 		m_y = (l > 0) ? l : 1;
-		m_pieces = new SimpleListProperty<Piece>();
-		setPieces(new ArrayList<Piece>());
+		m_pieces = new ArrayList<Piece>();
 		m_cases = new Case[m_x][m_y];
 		for(int i = 0; i < m_x; i++)
 		{

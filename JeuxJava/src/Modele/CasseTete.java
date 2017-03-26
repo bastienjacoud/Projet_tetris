@@ -30,7 +30,8 @@ public class CasseTete {
 											 {false,false,false}};
 		boolean[][] forme = new boolean[][] {{true}};
 		Piece p = new Piece(forme1, 1,1,"5");
-		_p.getPieces().add(p);
+		_p.poserPiece(p, 1, 1);
+		_p.poserPiece(p, 5, 5);
 	}
 
 
