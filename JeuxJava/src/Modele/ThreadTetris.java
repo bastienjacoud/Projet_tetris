@@ -1,17 +1,47 @@
 package Modele;
 
+import Base.Piece;
+
 public class ThreadTetris extends Thread
 {
 	protected Piece m_piece;
+	protected ModeleTetris m_modele;
+	protected double m_tempo;
 
-	public ThreadTetris()
+	public ThreadTetris(Piece p, ModeleTetris m, double t)
 	{
-		// TODO Auto-generated constructor stub
+		m_piece = p;
+		m_modele = m;
+		m_tempo = t;
+		this.start();
 	}
+
 	public void run()
 	{
-	    for(int i = 0; i < 10; i++)
-	    	System.out.println(this.getName());
+		int rep = 0;
+		do
+		{
+			rep++;
+			try
+			{
+				ThreadTetris.sleep((int)m_tempo);
+			}
+			catch(Exception e)
+			{
+				//catch
+			}
+		}while(m_modele.Move(m_piece, 1, 0));
+		try
+		{
+			ThreadTetris.sleep((int)m_tempo);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Ereur ThreadTetris");
+		}
+		System.out.println(m_piece.getX() + ", " + m_piece.getY());
+		if(rep > 1)
+			m_modele.Suivante();
 	}
 
 }

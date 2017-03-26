@@ -42,7 +42,6 @@ public class Plateau
 		return m_pieces;
 	}
 
-
 	public Case[][] getCases()
 	{
 		return m_cases;
@@ -161,10 +160,7 @@ public class Plateau
 			p.setPos(px, py);
 			int[][] index = p.Index();
 			for(int i = 0; i < index.length; i++)
-			{
 				m_cases[index[i][0]][index[i][1]].setCouleur(p.Couleur());
-				System.out.println("Case [" + index[i][0] + "][" + index[i][1] + "] modifiee.");
-			}
 			return true;
 		}
 		return false;
@@ -209,26 +205,22 @@ public class Plateau
 	 */
 	public boolean Move(Piece p, int x, int y)
 	{
-		System.out.println("Move 1");
 		x = (x == 0) ? 0 : (x > 0) ? 1 : -1;
 		y = (y == 0) ? 0 : (y > 0) ?1 : -1;
 		int px = p.getX() + x;
 		int py = p.getY() + y;
 		int[][] oldp = p.Index();
-		System.out.println("Move 2");
 		if(positionPossible(p, px, py))
 		{
-			System.out.println("Move 3");
 			p.Move(x, y);
-			int[][] difp = diff(oldp, p.Index());
-			System.out.println("Move 4");
-			for(int i = 0; i < difp.length; i++)
+			int[][] newp = p.Index();
+			for(int i = 0; i < oldp.length; i++)
 			{
-				System.out.println("Move 5." + i);
-				if(p.Contains(difp[i][0], difp[i][1]))
-					m_cases[difp[i][0]][difp[i][1]].setCouleur(p.Couleur());
-				else m_cases[difp[i][0]][difp[i][1]].setCouleur(Case._colorVide);
+				if(!p.Contains(oldp[i][0], oldp[i][1]))
+					m_cases[oldp[i][0]][oldp[i][1]].setCouleur(Case._colorVide);
 			}
+			for(int i = 0; i < newp.length; i++)
+				m_cases[newp[i][0]][newp[i][1]].setCouleur(p.Couleur());
 			return true;
 		}
 		return false;
@@ -244,12 +236,18 @@ public class Plateau
 		p.Rotate(s);
 		if(positionPossible(p, p.getX(), p.getY()))
 		{
-			int[][] difp = diff(oldp, p.Index());
-			for(int i = 0; i < difp.length; i++)
+			int[][] newp = p.Index();
+			for(int i = 0; i < oldp.length; i++)
 			{
-				if(p.Contains(difp[i][0], difp[i][1]))
-					m_cases[difp[i][0]][difp[i][1]].setCouleur(p.Couleur());
-				else m_cases[difp[i][0]][difp[i][1]].setCouleur(Case._colorVide);
+				if(p.Contains(oldp[i][0], oldp[i][1]))
+					m_cases[oldp[i][0]][oldp[i][1]].setCouleur(p.Couleur());
+				else m_cases[oldp[i][0]][oldp[i][1]].setCouleur(Case._colorVide);
+			}
+			for(int i = 0; i < newp.length; i++)
+			{
+				if(p.Contains(newp[i][0], newp[i][1]))
+					m_cases[newp[i][0]][newp[i][1]].setCouleur(p.Couleur());
+				else m_cases[newp[i][0]][newp[i][1]].setCouleur(Case._colorVide);
 			}
 			return true;
 		}
@@ -257,7 +255,7 @@ public class Plateau
 		return false;
 	}
 
-	//Retourne les index contenus dans a ou dans b mais pas dans les deux
+	//Retourne les index contenus dans a et/ou dans b mais pas dans les deux
 	//On suppose qu'il n'y a jamais deux fois le meme index dans un tableau
 	public static int[][] diff(int[][] a, int[][] b)
 	{
