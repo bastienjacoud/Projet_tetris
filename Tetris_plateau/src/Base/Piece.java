@@ -16,6 +16,8 @@ public class Piece
 	protected StringProperty m_couleur;
 	//Les positions valent -1 si la piece n'est pas posee
 	protected int m_x, m_y;
+
+	public boolean m_selected;
 	//Liste des couleurs disponnibles
 	//Format decimal "RRRGGGBBBAAA"
 	protected static String[] _col = new String[] {"1", "2", "3", "4", "5", "6"};
@@ -58,6 +60,7 @@ public class Piece
 		m_y = py;
 		m_couleur = new SimpleStringProperty(c);
 		this.setForme(forme);
+		this.setSelected(false);
 	}
 
 	public boolean[][] getForme()
@@ -72,9 +75,24 @@ public class Piece
 		return forme;
 	}
 
-	public String Couleur()
+	public String getCouleur()
 	{
 		return m_couleur.get();
+	}
+
+	public void setCouleur(String couleur)
+	{
+		m_couleur.set(couleur);
+	}
+
+	public boolean getSelected()
+	{
+		return m_selected;
+	}
+
+	public void setSelected(boolean selected)
+	{
+		m_selected = selected;
 	}
 
 	/* Indique si la piece occupe la case donnee

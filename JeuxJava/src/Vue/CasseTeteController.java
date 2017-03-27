@@ -5,6 +5,9 @@ import Graphique.PlateauController;
 import Main.Main;
 import Main.MainCasseTete;
 import Modele.CasseTete;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,6 +18,8 @@ import javafx.scene.paint.Color;
 
 public class CasseTeteController extends PlateauController
 {
+
+	protected SimpleBooleanProperty[][] m_boolProp;
 
 	@FXML
 	AnchorPane anchor;
@@ -30,38 +35,11 @@ public class CasseTeteController extends PlateauController
 		//
 	}
 
-	/*
+
 	@Override
 	protected void update()
 	{
-		//System.out.println("Ustart");
 		super.update();
-
-		for(int i = 0; i < m_h; i++)
-		{
-			for(int j = 0; j < m_l; j++)
-			{
-				//Pour chaque cas, on regarde si la couleur a change
-				if(m_actu[i][j] != m_strProp[i][j].get())
-				{
-					//Si ca a change, on actualise le rectangle
-					m_actu[i][j] = m_strProp[i][j].get();
-					m_rect[i][j].setFill(NewPaint(m_actu[i][j], i, j));
-					if(m_actu[i][j] == Case._colorVide)
-						m_rect[i][j].setStroke(Color.GREY);
-					else m_rect[i][j].setStroke(Color.BLACK);
-
-					if(((CasseTete)m_main.getPlateau()).getPieceSortable() != null)
-					{
-						if( ((CasseTete)m_main.getPlateau()).getPieceSortable().Contains(i, j) )
-							m_rect[i][j].setFill(Color.BLUE);
-					}
-
-
-				}
-			}
-		}
-
 
 		if(((CasseTete)m_main.getPlateau()).finJeu() == true )
 		{
@@ -73,11 +51,39 @@ public class CasseTeteController extends PlateauController
 		}
 
 	}
-	*/
+
+
+	public void updateSelected()
+	{
+		for(int i = 0; i < m_h; i++)
+		{
+			for(int j = 0; j < m_l; j++)
+			{
+				m_rect[i][j].setFill(NewFinalPaint(m_actu[i][j], i, j));
+			}
+		}
+	}
 
 	public void setMain(Main main)
 	{
 		super.setMain(main);
+
+		for(int i=0;i<m_h+2;i++)
+		{
+			m_rect[i][m_l-1].setFill(Color.BLACK);
+		}
+
+		//Ajoute un listener sur chaque case pour afficher une sélection.
+		m_boolProp = new SimpleBooleanProperty[m_h][m_l];
+		for(int i = 0; i < m_h; i++)
+		{
+			for(int j = 0; j < m_l; j++)
+			{
+				m_boolProp[i][j] = new SimpleBooleanProperty();
+				m_boolProp[i][j].bind(m_main.getPlateau().getSelectedProperty(i, j));
+				m_boolProp[i][j].addListener((ObservableValue<? extends Boolean> obs, Boolean oldV, Boolean newV) -> updateSelected());
+			}
+		}
 	}
 
 

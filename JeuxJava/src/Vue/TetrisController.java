@@ -48,7 +48,7 @@ public class TetrisController extends PlateauController
 			for(int j = 0; j < 4; j++)
 			{
 				//On actualise le rectangle
-				m_suivRect[i][j].setFill(NewPaint(m_suivProp[i][j].get(), i, j));
+				m_suivRect[i][j].setFill(NewPaint(m_suivProp[i][j].get()));
 				if(m_suivProp[i][j].get() == Case._colorVide)
 				{
 					m_suivRect[i][j].setStrokeWidth(0);
