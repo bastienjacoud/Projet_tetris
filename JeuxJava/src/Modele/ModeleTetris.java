@@ -272,6 +272,8 @@ public class ModeleTetris extends Plateau
 				if(m_active != null)
 					Move(m_active, 0, -1);
 				break;
+			case S:
+				SetScore(m_score+1);
 			default :
 				break;
 		}
