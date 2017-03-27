@@ -33,6 +33,12 @@ public class CasseTeteController extends PlateauController
 	Label score;
 
 	@FXML
+	Button lvlsuivant;
+
+	@FXML
+	Button lvlprecedent;
+
+	@FXML
 	Button reinitialiser;
 
 	@FXML
@@ -90,8 +96,29 @@ public class CasseTeteController extends PlateauController
 
 	public void reinitialise()
 	{
-		((CasseTete) (m_main.getPlateau())).reinit();
-		((CasseTete) (m_main.getPlateau())).initLVL1();
+		((CasseTete) (m_main.getPlateau())).reinitialisation();
+	}
+
+	public void levelsuivant()
+	{
+		if( !((CasseTete) (m_main.getPlateau())).levelSuivant() )
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Impossible !");
+			alert.setHeaderText("Il n'existe pas de niveau suivant.");
+			alert.show();
+		}
+	}
+
+	public void levelprecedent()
+	{
+		if( !((CasseTete) (m_main.getPlateau())).levelPrecedent() )
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Impossible !");
+			alert.setHeaderText("Il n'existe pas de niveau precedent.");
+			alert.show();
+		}
 	}
 
 	public void setMain(Main main)
@@ -110,6 +137,8 @@ public class CasseTeteController extends PlateauController
 			}
 		}
 		reinitialiser.setOnMouseClicked(mouseEvent -> reinitialise());
+		lvlsuivant.setOnMouseClicked(mouseEvent -> levelsuivant());
+		lvlprecedent.setOnMouseClicked(mouseEvent -> levelprecedent());
 
 		m_lvlProp = new SimpleStringProperty();
 		m_lvlProp.bind( ((CasseTete) (m_main.getPlateau())).getLevelProperty() );

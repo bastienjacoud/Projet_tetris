@@ -50,7 +50,12 @@
          </font>
       </Label>
       <Button fx:id="reinitialiser" focusTraversable="false" layoutX="419.0" layoutY="300.0" mnemonicParsing="false" text="Réinitialiser" />
-      <Button focusTraversable="false" layoutX="330.0" layoutY="349.0" mnemonicParsing="false" text="Niveau Précédent" />
-      <Button focusTraversable="false" layoutX="483.0" layoutY="349.0" mnemonicParsing="false" text="Niveau Suivant" />
+      <Button fx:id="lvlprecedent" focusTraversable="false" layoutX="330.0" layoutY="349.0" mnemonicParsing="false" text="Niveau Précédent" />
+      <Button fx:id="lvlsuivant" focusTraversable="false" layoutX="483.0" layoutY="349.0" mnemonicParsing="false" text="Niveau Suivant" />
+      <Text layoutX="287.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;-- Sortie">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

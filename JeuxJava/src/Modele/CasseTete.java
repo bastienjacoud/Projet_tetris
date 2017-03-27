@@ -195,36 +195,121 @@ public class CasseTete extends Plateau
 
 	}
 
+	public void initLVL2()
+	{
+		this.setLevelInt(2);
+		this.setLevel("" + getLevelInt());
+		this.setScoreInt(0);
+		this.setScore("" + getScoreInt());
+
+		boolean[][] forme1 = new boolean[][] {{true,true}};
+		boolean[][] forme2 = new boolean[][] {{true,true,true}};
+		boolean[][] forme3 = new boolean[][] {{true},{true},{true}};
+		boolean[][] forme4 = new boolean[][] {{true},{true}};
+		Piece sortable = new Piece(forme1, -1,-1, "1");
+		Piece p1 = new Piece(forme1, -1, -1);
+		Piece p2 = new Piece(forme1, -1, -1);
+		Piece p3 = new Piece(forme4, -1, -1);
+		Piece p4 = new Piece(forme4, -1, -1);
+		Piece p5 = new Piece(forme4, -1, -1);
+		Piece p6 = new Piece(forme4, -1, -1);
+		Piece p7 = new Piece(forme4, -1, -1);
+		Piece p8 = new Piece(forme4, -1, -1);
+		Piece p9 = new Piece(forme2, -1, -1);
+		Piece p10 = new Piece(forme2, -1, -1);
+		Piece p11 = new Piece(forme3, -1, -1);
+		poserPiece(sortable, 2, 0);
+
+		poserPiece(p1, 3, 0);
+		poserPiece(p2, 4, 4);
+		poserPiece(p3, 0, 0);
+		poserPiece(p4, 0, 5);
+		poserPiece(p5, 2, 5);
+		poserPiece(p6, 2, 2);
+		poserPiece(p7, 2, 3);
+		poserPiece(p8, 4, 3);
+		poserPiece(p9, 0, 1);
+		poserPiece(p10, 1, 1);
+		poserPiece(p11, 0, 4);
+	}
+
 	public void reinit()
 	{
 		m_piece_sortable = null;
-		m_scoreInt=-1;
-		m_score.set("" + m_scoreInt);
 		//quand aucun niveau n'est chargé
-		m_levelInt = 0;
-		m_level.set("" + m_levelInt);
+
+		int tailleListe = super.getPieces().size();
+		for(int i=0;i<tailleListe;i++)
+			super.getPieces().remove(0);
 
 
-		for(int i=0;i<super.getPieces().size();i++)
-			super.getPieces().remove(i);
-
-
-		m_pieces = new ArrayList<Piece>();
+		//m_pieces = new ArrayList<Piece>();
 		for(int i=0;i<m_cases.length;i++)
 			for(int j=0;j<m_cases[0].length;j++)
 				m_cases[i][j].setCouleur(Case._colorVide);
+	}
 
+	public void reinitialisation()
+	{
+		switch(m_levelInt)
+		{
+		case 1:
+			reinit();
+			initLVL1();
+			break;
+		case 2:
+			reinit();
+			initLVL2();
+			break;
+		default:
+			break;
+		}
+	}
 
+	public boolean levelSuivant()
+	{
+		int levelActuel = m_levelInt;
+		switch(levelActuel)
+		{
+			case 1:
+				reinit();
+				initLVL2();
+				return true;
+			case 2:
+				return false;
+			default:
+				return false;
+		}
+	}
+
+	public boolean levelPrecedent()
+	{
+		int levelActuel = m_levelInt;
+		switch(levelActuel)
+		{
+			case 2:
+				reinit();
+				initLVL1();
+				return true;
+			case 1:
+				return false;
+			default:
+				return false;
+		}
 	}
 
 	public void jouer()
 	{
-		initLVL1();
+		//Par défaut, le jeu se lance sur le niveau 1
+		initLVL2();
 	}
 
 	public boolean finJeu()
 	{
-		return super.getPieces().get(0).Contains(2, 5);
+		if(!super.getPieces().isEmpty() )
+			return super.getPieces().get(0).Contains(2, 5);
+		else
+			return false;
 
 	}
 
