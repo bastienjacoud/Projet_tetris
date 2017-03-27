@@ -82,7 +82,7 @@ public class TetrisController extends PlateauController
 		lScore.setLayoutX(0);
 		lScore.setText("0");
 		*/
-		lScore.setText("0");
+		//lScore.setText("0");
 		m_score = new SimpleStringProperty();
 		m_score.bind( ((ModeleTetris) (m_main.getPlateau())).getScoreProperty() );
 		m_score.addListener( (ObservableValue<? extends String> obs, String oldV, String newV) -> updateScore() );

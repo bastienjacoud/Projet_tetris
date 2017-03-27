@@ -96,6 +96,22 @@ public class CasseTete extends Plateau
 		m_piece_sortable = p;
 	}
 
+	public boolean estHorizontale(Piece p)
+	{
+		if(p.getForme().length == 1)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean estVerticale(Piece p)
+	{
+		if(p.getForme()[0].length == 1)
+			return true;
+		else
+			return false;
+	}
+
 
 	public void handleKeyPressed(KeyCode keyCode)
 	{
@@ -106,38 +122,54 @@ public class CasseTete extends Plateau
 				case DOWN:
 					if(m_piece_sortable != null)
 					{
-						super.Move(m_piece_sortable, 1, 0);
-						m_scoreInt++;
-						m_score.set( "" + m_scoreInt );
+						if(estVerticale(m_piece_sortable))
+						{
+							if(super.Move(m_piece_sortable, 1, 0))
+							{
+								m_scoreInt++;
+								m_score.set( "" + m_scoreInt );
+							}
+						}
 					}
-
 					break;
 				case UP:
 					if(m_piece_sortable != null)
 					{
-						super.Move(m_piece_sortable, -1, 0);
-						m_scoreInt++;
-						m_score.set( "" + m_scoreInt );
+						if(estVerticale(m_piece_sortable))
+						{
+							if(super.Move(m_piece_sortable, -1, 0))
+							{
+								m_scoreInt++;
+								m_score.set( "" + m_scoreInt );
+							}
+						}
 					}
-
 					break;
 				case RIGHT:
 					if(m_piece_sortable != null)
 					{
-						super.Move(m_piece_sortable, 0, 1);
-						m_scoreInt++;
-						m_score.set( "" + m_scoreInt );
+						if(estHorizontale(m_piece_sortable))
+						{
+							if(super.Move(m_piece_sortable, 0, 1))
+							{
+								m_scoreInt++;
+								m_score.set( "" + m_scoreInt );
+							}
+						}
 					}
-
 					break;
 				case LEFT:
 					if(m_piece_sortable != null)
 					{
-						super.Move(m_piece_sortable, 0, -1);
-						m_scoreInt++;
-						m_score.set( "" + m_scoreInt );
+						if(estHorizontale(m_piece_sortable))
+						{
+							if(super.Move(m_piece_sortable, 0, -1))
+							{
+								m_scoreInt++;
+								m_score.set( "" + m_scoreInt );
+							}
+						}
 					}
-
 					break;
 				case C:
 					if((m_piece_sortable == null) || (super.getIndex(m_piece_sortable)+1 == super.getPieces().size()) )
