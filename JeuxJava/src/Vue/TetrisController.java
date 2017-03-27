@@ -61,6 +61,11 @@ public class TetrisController extends PlateauController
 		}
 	}
 
+	protected void Alive()
+	{
+		System.out.println("Alive");
+	}
+
 	protected void updateScore()
 	{
 		//lScore.setText(m_score.get());
@@ -68,8 +73,10 @@ public class TetrisController extends PlateauController
 
 	public void setMain(Main main)
 	{
-		System.out.println("test");
 		super.setMain(main);
+
+		//new ThreadTest(this).start();
+
 		grille.setLayoutX(100);
 		lScore = new Label();
 		lScore.setLayoutX(0);

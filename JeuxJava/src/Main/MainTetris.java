@@ -2,12 +2,12 @@ package Main;
 
 import java.io.IOException;
 
-import Graphique.PlateauController;
+
 import Modele.ModeleTetris;
-import Vue.TetrisController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -45,6 +45,8 @@ public class MainTetris extends Main
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(m_rootLayout);
+
+
             m_primaryStage.setScene(scene);
             m_primaryStage.show();
 		}

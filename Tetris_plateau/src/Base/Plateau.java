@@ -348,4 +348,9 @@ public class Plateau
 	{
 
 	}
+
+	public void handleKeyReleased(KeyCode keyCode)
+	{
+		//
+	}
 }

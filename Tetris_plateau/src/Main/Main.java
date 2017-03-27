@@ -10,8 +10,10 @@ import javafx.beans.value.ObservableObjectValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -25,7 +27,8 @@ public class Main extends Application
 {
 	protected Stage m_primaryStage;
 	protected BorderPane m_rootLayout;
-	public Plateau m_plateau;
+	protected Plateau m_plateau;
+	protected PlateauController m_controller;
 
 	public Main()
 	{
@@ -40,6 +43,7 @@ public class Main extends Application
 		m_primaryStage.setTitle("Plateau");
 
 		initRootLayout();
+
 
 		afficherPlateau(m_rootLayout, this);
 
@@ -82,6 +86,28 @@ public class Main extends Application
 
     public void afficherPlateau(BorderPane rootLayout, Main m, String str)
     {
+
+		m_primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>()
+		{
+
+			@Override
+			public void handle(KeyEvent event)
+			{
+				m_plateau.handleKeyPressed(event.getCode());
+			}
+
+		});
+
+		m_primaryStage.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>()
+		{
+
+			@Override
+			public void handle(KeyEvent event)
+			{
+				m_plateau.handleKeyReleased(event.getCode());
+			}
+
+		});
         try
         {
             // Charge l'affichage du plateau.
@@ -92,8 +118,8 @@ public class Main extends Application
 
 
             // Donne au controller l'acces au Main.
-            PlateauController controller = loader.getController();
-            controller.setMain(m);
+            m_controller = loader.getController();
+            m_controller.setMain(m);
 
             // Fixe l'affichage au centre
             rootLayout.setCenter(grille);

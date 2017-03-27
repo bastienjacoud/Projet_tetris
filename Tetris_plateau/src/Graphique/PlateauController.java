@@ -67,7 +67,6 @@ public class PlateauController
 
 	protected void update()
 	{
-		System.out.println("Ustart");
 		for(int i = 0; i < m_h; i++)
 		{
 			for(int j = 0; j < m_l; j++)
@@ -84,7 +83,6 @@ public class PlateauController
 				}
 			}
 		}
-		System.out.println("Ustop");
 	}
 
 	public void setMain(Main main)

@@ -1,12 +1,16 @@
 package Modele;
 
+
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import Base.Case;
 import Base.Piece;
 import Base.Plateau;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.input.KeyCode;
 
 public class ModeleTetris extends Plateau
 {
@@ -14,6 +18,7 @@ public class ModeleTetris extends Plateau
     protected Piece[] m_suivantes;
     protected Case[][] m_caseSuiv;
     protected int m_score;
+    protected Piece m_active;
     protected SimpleStringProperty m_strScore;
 
     public ModeleTetris()
@@ -82,9 +87,13 @@ public class ModeleTetris extends Plateau
 
     public boolean poserPiece(Piece p, int px, int py)
     {
+    	m_active = p;
         boolean bool = super.poserPiece(p, px, py);
-        if(bool)
-        	m_thread = new ThreadTetris(p, this, 500);
+        if(!bool)
+        {
+        	m_active = null;
+        }
+        m_thread = new ThreadTetris(p, this, 500, 100);
         return bool;
     }
 
@@ -125,4 +134,42 @@ public class ModeleTetris extends Plateau
         }
         return new Piece(forme);
     }
+
+	public void handleKeyPressed(KeyCode keyCode)
+	{
+		switch(keyCode)
+		{
+			case DOWN:
+				if(m_thread != null)
+					m_thread.Accelerer();
+				break;
+			case UP:
+				if(m_active != null)
+					Rotate(m_active, true);
+				break;
+			case RIGHT:
+				if(m_active != null)
+					Move(m_active, 0, 1);
+				break;
+			case LEFT:
+				if(m_active != null)
+					Move(m_active, 0, -1);
+				break;
+			default :
+				break;
+		}
+	}
+
+	public void handleKeyReleased(KeyCode keyCode)
+	{
+		switch(keyCode)
+		{
+			case DOWN:
+				if(m_thread != null)
+					m_thread.Normal();
+				break;
+			default :
+				break;
+		}
+	}
 }
