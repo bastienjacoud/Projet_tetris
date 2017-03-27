@@ -33,8 +33,9 @@ public class PlateauController
 		//
 	}
 
-	protected Color NewPaint(String str, int x, int y)
+	protected Color NewPaint(String str)
 	{
+		//if(m_main.m_plateau.Contains(x, y).getSelected())
 		switch(str)
 		{
 			case "1" :
@@ -52,7 +53,17 @@ public class PlateauController
 			default :
 				return Color.TRANSPARENT;
 		}
+
 	}
+
+	protected Color NewFinalPaint(String str, int x, int y)
+	{
+		if(m_main.m_plateau.Contains(x, y).getSelected())
+			return NewPaint(str).darker();
+		else
+			return NewPaint(str);
+	}
+
 
 	protected void update()
 	{
@@ -66,7 +77,7 @@ public class PlateauController
 				{
 					//Si ca a change, on actualise le rectangle
 					m_actu[i][j] = m_strProp[i][j].get();
-					m_rect[i][j].setFill(NewPaint(m_actu[i][j], i, j));
+					m_rect[i][j].setFill(NewPaint(m_actu[i][j]));
 					if(m_actu[i][j] == Case._colorVide)
 						m_rect[i][j].setStroke(Color.GREY);
 					else m_rect[i][j].setStroke(Color.BLACK);
@@ -89,16 +100,30 @@ public class PlateauController
 		m_rect = new Rectangle[m_h][m_l];
 		m_actu = new String[m_h][m_l];
 		m_strProp = new SimpleStringProperty[m_h][m_l];
+
+		for(int i = 0; i < m_h+2; i++)
+		{
+			for(int j = 0; j < m_l+2; j++)
+			{
+				m_rect[i][j] = new Rectangle();
+				m_rect[i][j].setWidth(30);
+				m_rect[i][j].setHeight(30);
+				m_rect[i][j].setFill(Color.TRANSPARENT);
+			}
+		}
+
 		for(int i = 0; i < m_h; i++)
 		{
 			for(int j = 0; j < m_l; j++)
 			{
 				//Couleur par defaut
 				m_actu[i][j] = Case._colorVide;
+				/*
 				m_rect[i][j] = new Rectangle();
 				m_rect[i][j].setWidth(30);
 				m_rect[i][j].setHeight(30);
 				m_rect[i][j].setFill(Color.TRANSPARENT);
+				*/
 				m_rect[i][j].setStroke(Color.GREY);
 				m_rect[i][j].setStrokeType(StrokeType.INSIDE);
 				m_rect[i][j].setStrokeWidth(1);

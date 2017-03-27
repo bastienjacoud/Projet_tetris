@@ -2,9 +2,11 @@ package Base;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -56,6 +58,16 @@ public class Plateau
 			|| (colonne >= m_cases[ligne].length))
 			return new SimpleStringProperty(Case._colorVide);
 		return m_cases[ligne][colonne].getCouleurProperty();
+	}
+
+	public BooleanProperty getSelectedProperty(int ligne, int colonne)
+	{
+		if((ligne < 0)
+			|| (ligne >= m_cases.length)
+			|| (colonne < 0)
+			|| (colonne >= m_cases[ligne].length))
+			return new SimpleBooleanProperty(false);
+		return m_cases[ligne][colonne].getSelectedProperty();
 	}
 
 	public void setHauteur(int x)
@@ -136,6 +148,32 @@ public class Plateau
 	}
 	*/
 
+	public Piece Contains(int x, int y)
+	{
+		for(int i=0;i<this.getPieces().size();i++)
+		{
+			if(this.getPieces().get(i).Contains(x, y))
+				return this.getPieces().get(i);
+		}
+		return new Piece();
+	}
+
+	public void selectionne(Piece piece)
+	{
+		piece.setSelected(true);
+		for(int i=0;i<piece.Index().length;i++)
+			for(int j=0;j<piece.Index()[0].length;j++)
+				m_cases[i][i].setSelected(true);
+	}
+
+	public void deselectionne(Piece piece)
+	{
+		piece.setSelected(false);
+		for(int i=0;i<piece.Index().length;i++)
+			for(int j=0;j<piece.Index()[0].length;j++)
+				m_cases[i][i].setSelected(false);
+	}
+
 	/* Indique si la case aux coordonnees indiquees est occupee
 	 */
 	public boolean Occupee(int x, int y)
@@ -161,7 +199,7 @@ public class Plateau
 			p.setPos(px, py);
 			int[][] index = p.Index();
 			for(int i = 0; i < index.length; i++)
-				m_cases[index[i][0]][index[i][1]].setCouleur(p.Couleur());
+				m_cases[index[i][0]][index[i][1]].setCouleur(p.getCouleur());
 			return true;
 		}
 		return false;
@@ -221,7 +259,7 @@ public class Plateau
 					m_cases[oldp[i][0]][oldp[i][1]].setCouleur(Case._colorVide);
 			}
 			for(int i = 0; i < newp.length; i++)
-				m_cases[newp[i][0]][newp[i][1]].setCouleur(p.Couleur());
+				m_cases[newp[i][0]][newp[i][1]].setCouleur(p.getCouleur());
 			return true;
 		}
 		return false;
@@ -241,13 +279,13 @@ public class Plateau
 			for(int i = 0; i < oldp.length; i++)
 			{
 				if(p.Contains(oldp[i][0], oldp[i][1]))
-					m_cases[oldp[i][0]][oldp[i][1]].setCouleur(p.Couleur());
+					m_cases[oldp[i][0]][oldp[i][1]].setCouleur(p.getCouleur());
 				else m_cases[oldp[i][0]][oldp[i][1]].setCouleur(Case._colorVide);
 			}
 			for(int i = 0; i < newp.length; i++)
 			{
 				if(p.Contains(newp[i][0], newp[i][1]))
-					m_cases[newp[i][0]][newp[i][1]].setCouleur(p.Couleur());
+					m_cases[newp[i][0]][newp[i][1]].setCouleur(p.getCouleur());
 				else m_cases[newp[i][0]][newp[i][1]].setCouleur(Case._colorVide);
 			}
 			return true;
@@ -308,11 +346,6 @@ public class Plateau
 
 	public void handleKeyPressed(KeyCode keyCode)
 	{
-		switch(keyCode)
-		{
-			case DOWN:
-				m_pieces.get(0).Move(1, 0);
-				break;
-		}
+
 	}
 }

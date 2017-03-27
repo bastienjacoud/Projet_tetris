@@ -38,7 +38,7 @@ public class ModeleTetris extends Plateau
     		for(int j = 0; j < 4; j++)
     		{
     			if((i < f.length) && (j < f[0].length) && f[i][j])
-    				m_caseSuiv[(2*index)+i][j].setCouleur(p.Couleur());
+    				m_caseSuiv[(2*index)+i][j].setCouleur(p.getCouleur());
     			else m_caseSuiv[(2*index)+i][j].setCouleur(Case._colorVide);
     		}
     	}
