@@ -315,4 +315,9 @@ public class Plateau
 				break;
 		}
 	}
+
+	public void handleKeyReleased(KeyCode keyCode)
+	{
+		//
+	}
 }

@@ -25,7 +25,7 @@ public class ThreadTetris extends Thread
 	{
 		try
 		{
-			ThreadTetris.sleep((int)m_normal);
+			ThreadTetris.sleep((int)m_actu);
 		}
 		catch(Exception e)
 		{

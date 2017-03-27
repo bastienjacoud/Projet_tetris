@@ -10,6 +10,7 @@ import Base.Piece;
 import Base.Plateau;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.input.KeyCode;
 
 public class ModeleTetris extends Plateau
 {
@@ -89,8 +90,10 @@ public class ModeleTetris extends Plateau
     	m_active = p;
         boolean bool = super.poserPiece(p, px, py);
         if(!bool)
+        {
         	m_active = null;
-        m_thread = new ThreadTetris(p, this, 600, 300);
+        }
+        m_thread = new ThreadTetris(p, this, 500, 100);
         return bool;
     }
 
@@ -131,4 +134,42 @@ public class ModeleTetris extends Plateau
         }
         return new Piece(forme);
     }
+
+	public void handleKeyPressed(KeyCode keyCode)
+	{
+		switch(keyCode)
+		{
+			case DOWN:
+				if(m_thread != null)
+					m_thread.Accelerer();
+				break;
+			case UP:
+				if(m_active != null)
+					Rotate(m_active, true);
+				break;
+			case RIGHT:
+				if(m_active != null)
+					Move(m_active, 0, 1);
+				break;
+			case LEFT:
+				if(m_active != null)
+					Move(m_active, 0, -1);
+				break;
+			default :
+				break;
+		}
+	}
+
+	public void handleKeyReleased(KeyCode keyCode)
+	{
+		switch(keyCode)
+		{
+			case DOWN:
+				if(m_thread != null)
+					m_thread.Normal();
+				break;
+			default :
+				break;
+		}
+	}
 }
