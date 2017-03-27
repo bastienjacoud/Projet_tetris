@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.input.KeyCode;
 
 public class Plateau
 {
@@ -303,5 +304,15 @@ public class Plateau
 	public void jouer()
 	{
 		//
+	}
+
+	public void handleKeyPressed(KeyCode keyCode)
+	{
+		switch(keyCode)
+		{
+			case DOWN:
+				m_pieces.get(0).Move(1, 0);
+				break;
+		}
 	}
 }
