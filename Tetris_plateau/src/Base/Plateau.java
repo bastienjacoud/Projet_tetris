@@ -75,13 +75,6 @@ public class Plateau
 			m_pieces.add(pieces.get(i));
 	}
 
-	/*
-	public void setCases(Case[][] cases)
-	{
-		m_cases = cases;
-	}
-	*/
-
 	protected void Init(int h, int l)
 	{
 		m_x = (h > 0) ? h : 1;
@@ -94,47 +87,6 @@ public class Plateau
 				m_cases[i][j] = new Case(Case._colorVide);
 		}
 	}
-
-	/* Retourne l'index de chaque case ayant changee
-	 */
-
-	/*
-	public int[][] getChange()
-	{
-		int[][] tab = new int[m_x.get() * m_y.get()][2];
-		int compteur = 0;
-		for(int i = 0; i < m_x.get(); i++)
-		{
-			for(int j = 0; j < m_y.get(); j++)
-			{
-				if(m_change[i][j])
-				{
-					tab[compteur][0] = i;
-					tab[compteur][1] = j;
-					compteur++;
-				}
-			}
-		}
-		int[][] res = new int[compteur][2];
-		for(int i = 0; i < compteur; i++)
-		{
-			res[i][0] = tab[i][0];
-			res[i][1] = tab[i][1];
-		}
-		return res;
-	}
-
-	*/
-
-	/*
-	 * Retourne la case qui correspond aux coordonnees indiquees
-	 */
-	/*
-	public Case getCase(int ligne, int colonne)
-	{
-		return m_cases[ligne][colonne].get();
-	}
-	*/
 
 	/* Indique si la case aux coordonnees indiquees est occupee
 	 */
@@ -299,6 +251,27 @@ public class Plateau
 			res[i][1] = c[i][1];
 		}
 		return res;
+	}
+
+	protected String getColor(int x, int y)
+	{
+		for(int i = 0; i < m_pieces.size(); i++)
+		{
+			if(m_pieces.get(i).Contains(x, y))
+				return m_pieces.get(i).getCouleur();
+		}
+	}
+
+	protected void Actualiser()
+	{
+		for(int i = 0; i < getHauteur(); i++)
+		{
+			for(int j = 0; j < getLargeur(); j++)
+			{
+
+				m_cases[i][j]
+			}
+		}
 	}
 
 	public void jouer()
