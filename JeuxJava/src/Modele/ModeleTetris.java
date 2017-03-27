@@ -1,10 +1,13 @@
 package Modele;
 
+
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import Base.Case;
 import Base.Piece;
 import Base.Plateau;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -14,6 +17,7 @@ public class ModeleTetris extends Plateau
     protected Piece[] m_suivantes;
     protected Case[][] m_caseSuiv;
     protected int m_score;
+    protected Piece m_active;
     protected SimpleStringProperty m_strScore;
 
     public ModeleTetris()
@@ -82,9 +86,11 @@ public class ModeleTetris extends Plateau
 
     public boolean poserPiece(Piece p, int px, int py)
     {
+    	m_active = p;
         boolean bool = super.poserPiece(p, px, py);
-        if(bool)
-        	m_thread = new ThreadTetris(p, this, 500);
+        if(!bool)
+        	m_active = null;
+        m_thread = new ThreadTetris(p, this, 600, 300);
         return bool;
     }
 

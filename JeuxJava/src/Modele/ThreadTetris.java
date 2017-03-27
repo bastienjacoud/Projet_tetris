@@ -1,19 +1,46 @@
 package Modele;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import Base.Piece;
 
 public class ThreadTetris extends Thread
 {
 	protected Piece m_piece;
 	protected ModeleTetris m_modele;
-	protected double m_tempo;
+	protected double m_normal, m_accelere, m_actu;
 
-	public ThreadTetris(Piece p, ModeleTetris m, double t)
+	public ThreadTetris(Piece p, ModeleTetris m, double t1, double t2)
 	{
 		m_piece = p;
 		m_modele = m;
-		m_tempo = t;
+		m_normal = t1;
+		m_accelere = t2;
+		m_actu = m_normal;
 		this.start();
+	}
+
+	protected void Pause()
+	{
+		try
+		{
+			ThreadTetris.sleep((int)m_normal);
+		}
+		catch(Exception e)
+		{
+			//catch
+		}
+	}
+
+	public void Accelerer()
+	{
+		m_actu = m_accelere;
+	}
+
+	public void Normal()
+	{
+		m_actu = m_normal;
 	}
 
 	public void run()
@@ -22,24 +49,9 @@ public class ThreadTetris extends Thread
 		do
 		{
 			rep++;
-			try
-			{
-				ThreadTetris.sleep((int)m_tempo);
-			}
-			catch(Exception e)
-			{
-				//catch
-			}
+			Pause();
 		}while(m_modele.Move(m_piece, 1, 0));
-		try
-		{
-			ThreadTetris.sleep((int)m_tempo);
-		}
-		catch(Exception e)
-		{
-			System.out.println("Ereur ThreadTetris");
-		}
-		System.out.println(m_piece.getX() + ", " + m_piece.getY());
+		Pause();
 		if(rep > 1)
 			m_modele.Suivante();
 	}
