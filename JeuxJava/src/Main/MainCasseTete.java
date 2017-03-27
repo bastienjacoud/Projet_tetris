@@ -33,16 +33,6 @@ public class MainCasseTete extends Main
 
 		afficherPlateau(m_rootLayout, this, "../Vue/VueCasseTete.fxml");
 
-		
-		m_primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event) {
-				m_plateau.handleKeyPressed(event.getCode());
-			}
-
-		});
-		
 		m_plateau.jouer();
 
 	}

@@ -61,11 +61,6 @@ public class TetrisController extends PlateauController
 		}
 	}
 
-	protected void Alive()
-	{
-		System.out.println("Alive");
-	}
-
 	protected void updateScore()
 	{
 		//lScore.setText(m_score.get());
@@ -94,11 +89,7 @@ public class TetrisController extends PlateauController
 
 		m_suivRect = new Rectangle[4][4];
 		m_suivProp = new SimpleStringProperty[4][4];
-		/*
-		m_score = new SimpleStringProperty();
-		m_score.bind(((ModeleTetris)m_main.getPlateau()).getScore());
-		m_score.addListener((ObservableValue<? extends String> obs, String oldV, String newV) -> updateScore());
-		*/
+
 		for(int i = 0; i < 4; i++)
 		{
 			for(int j = 0; j < 4; j++)

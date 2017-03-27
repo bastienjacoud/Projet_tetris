@@ -301,6 +301,16 @@ public class Plateau
 		return Case._colorVide;
 	}
 
+	protected Piece getPiece(int x, int y)
+	{
+		for(int i = 0; i < m_pieces.size(); i++)
+		{
+			if(m_pieces.get(i).Contains(x, y))
+				return m_pieces.get(i);
+		}
+		return null;
+	}
+
 	public void jouer()
 	{
 		//

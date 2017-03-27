@@ -68,11 +68,6 @@ public class CasseTeteController extends PlateauController
 	{
 		super.setMain(main);
 
-		for(int i=0;i<m_h+2;i++)
-		{
-			m_rect[i][m_l-1].setFill(Color.BLACK);
-		}
-
 		//Ajoute un listener sur chaque case pour afficher une sélection.
 		m_boolProp = new SimpleBooleanProperty[m_h][m_l];
 		for(int i = 0; i < m_h; i++)

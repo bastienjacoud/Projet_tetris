@@ -1,9 +1,6 @@
 package Modele;
 
 
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import Base.Case;
@@ -118,32 +115,75 @@ public class ModeleTetris extends Plateau
     protected void SupprimerLignes()
     {
     	ArrayList<Integer> tab = LignesPleines();
+    	ArrayList<Piece> nouv = new ArrayList<Piece>();
     	int compteur = 0;
     	for(int i = 0; i < tab.size(); i++)
     	{
     		int index = tab.get(i) + compteur;
+    		System.out.println("Suppression " + index);
+    		Piece[] temp = new Piece[m_pieces.size()];
     		for(int j = 0; j < m_pieces.size(); j++)
+    			temp[j] = m_pieces.get(j);
+    		for(int j = 0; j < temp.length; j++)
     		{
-    			m_pieces.get(j).DelLigne(index);
-    			compteur++;
+    			ArrayList<Piece> np = temp[j].DelLigne(index);
+				m_pieces.remove(temp[j]);
+				for(int k = 0; k < np.size(); k++)
+					nouv.add(np.get(i));
     		}
+			compteur++;
+    		for(int j = 0; j < nouv.size(); j++)
+    			m_pieces.add(nouv.get(i));
         	Actualiser(index);
     	}
+    	Refresh();
     }
 
-    protected void Actualiser(int lignes)
+    protected void Actualiser(int ligne)
     {
+    	/*
     	boolean test = false;
     	for(int i = 0; i < m_pieces.size(); i++)
     	{
-    		if(m_pieces.get(i).getX() >= lignes)
+    		if(m_pieces.get(i).getX() < ligne)
     		{
-    			if(Move(m_pieces.get(i), 0, 1))
+    			while(Move(m_pieces.get(i), 1, 0))
     				test = true;
     		}
     	}
     	if(test)
-    		Actualiser(lignes);
+    		Actualiser(ligne);
+    	*/
+    	ArrayList<Piece> tab = new ArrayList<Piece>();
+    	for(int i = 0; i < m_pieces.size(); i++)
+    	{
+    		if(m_pieces.get(i).getX() < ligne)
+    			tab.add(m_pieces.get(i));
+    	}
+    	while(tab.size() > 0)
+    	{
+    		for(int i = 0; i < tab.size(); i++)
+    		{
+    			if(Move(tab.get(i), 1, 0))
+    			{
+    				tab.remove(tab.get(i));
+    			}
+    		}
+    	}
+    }
+
+    protected void Refresh()
+    {
+    	for(int i = 0; i < getHauteur(); i++)
+    	{
+    		for(int j = 0; j < getLargeur(); j++)
+    		{
+    			Piece p = getPiece(i, j);
+    			if(p == null)
+    				m_cases[i][j].setCouleur(Case._colorVide);
+    			else m_cases[i][j].setCouleur(p.getCouleur());
+    		}
+    	}
     }
 
     protected static Piece newPiece()

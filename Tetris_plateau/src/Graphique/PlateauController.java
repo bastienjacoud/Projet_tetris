@@ -98,30 +98,16 @@ public class PlateauController
 		m_rect = new Rectangle[m_h][m_l];
 		m_actu = new String[m_h][m_l];
 		m_strProp = new SimpleStringProperty[m_h][m_l];
-
-		for(int i = 0; i < m_h; i++)
-		{
-			for(int j = 0; j < m_l; j++)
-			{
-				m_rect[i][j] = new Rectangle();
-				m_rect[i][j].setWidth(30);
-				m_rect[i][j].setHeight(30);
-				m_rect[i][j].setFill(Color.TRANSPARENT);
-			}
-		}
-
 		for(int i = 0; i < m_h; i++)
 		{
 			for(int j = 0; j < m_l; j++)
 			{
 				//Couleur par defaut
 				m_actu[i][j] = Case._colorVide;
-				/*
 				m_rect[i][j] = new Rectangle();
 				m_rect[i][j].setWidth(30);
 				m_rect[i][j].setHeight(30);
 				m_rect[i][j].setFill(Color.TRANSPARENT);
-				*/
 				m_rect[i][j].setStroke(Color.GREY);
 				m_rect[i][j].setStrokeType(StrokeType.INSIDE);
 				m_rect[i][j].setStrokeWidth(1);

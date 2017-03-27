@@ -2,6 +2,8 @@ package Base;
 
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -93,6 +95,11 @@ public class Piece
 	public void setSelected(boolean selected)
 	{
 		m_selected = selected;
+	}
+
+	public boolean Contains(int ligne)
+	{
+		return ((ligne >= getX()) && (ligne < (getX() + Hauteur())));
 	}
 
 	/* Indique si la piece occupe la case donnee
@@ -328,25 +335,51 @@ public class Piece
 		this.setForme(forme);
 	}
 
-	public boolean DelLigne(int ligne)
+	public void DelLigne(int ligne)
 	{
+		/*
+		ArrayList<Piece> np = new ArrayList<Piece>();
 		if((ligne >= getX())
 			&& (ligne < (getX() + Hauteur())))
 		{
 			int id = ligne - getX();
-			m_x++;
-			boolean[][] newF = new boolean[Hauteur() - 1][Largeur()];
-			for(int i = 0, i2 = 0; i < Hauteur(); i++, i2++)
+			//On cree la piece superieure
+			if(id != 0)
 			{
-				if(i == id)
-					i++;
-				for(int j = 0; j < Largeur(); j++)
-					newF[i2][j] = m_forme[i][j];
+				boolean[][] f = new boolean[id][Largeur()];
+				for(int i = 0; i < id; i++)
+				{
+					for(int j = 0; j < Largeur(); j++)
+						f[i][j] = m_forme[i][j];
+				}
+				Piece p = new Piece(f, getX(), getY(), getCouleur());
+				np.add(p);
 			}
-			setForme(newF);
-			return true;
+			if(id != (Hauteur() - 1))
+			{
+				boolean[][] f = new boolean[Hauteur() - (id + 1)][Largeur()];
+				for(int i = id + 1; i < Hauteur(); i++)
+				{
+					for(int j = 0; j < Largeur(); j++)
+						f[i - (id + 1)][j] = m_forme[i][j];
+				}
+				Piece p = new Piece(f, ligne + 1, getY(), getCouleur());
+				np.add(p);
+			}
 		}
-		return false;
+		else np.add(this);
+		return np;
+		*/
+		id = ligne - getX();
+		if((ligne >= getX()) && (ligne < (getX() + Hauteur())))
+		{
+			boolean[][] f = new boolean[Hauteur() - 1][Largeur()];
+			for(int i1 = 0; i2 = 0; i1 < Hauteur(); i1++, i2++)
+			{
+				if(i1 == id)
+					i1++;
+			}
+		}
 	}
 
 	/* Retourne la liste des cases devant etre libres pour effectuer une rotation a 90° de la piece
@@ -381,7 +414,7 @@ public class Piece
 
 	/* Redessine la piece pour ne pas avoir de colonne/ligne exterieure vide.
 	 */
-	static protected boolean[][] Ajuster(boolean[][] forme)
+	protected boolean[][] Ajuster(boolean[][] forme)
 	{
 		//On teste la premiere colonne
 		boolean test = false;
@@ -398,6 +431,8 @@ public class Piece
 				for(int j = 1; j < forme[0].length; j++)
 					f[i][j - 1] = forme[i][j];
 			}
+			if(m_y >= 0)
+				m_y++;
 			return Ajuster(f);
 		}
 
@@ -432,6 +467,8 @@ public class Piece
 				for(int j = 0; j < forme[0].length; j++)
 					f[i - 1][j] = forme[i][j];
 			}
+			if(m_x >= 0)
+				m_x++;
 			return Ajuster(f);
 		}
 
