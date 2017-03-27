@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="anchor" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Vue.CasseTeteController">
    <children>
       <GridPane fx:id="grille" gridLinesVisible="true" layoutX="100.0" layoutY="210.0" prefHeight="180.0" prefWidth="180.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -21,13 +23,34 @@
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
+      <Text layoutX="180.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Niveau :" wrappingWidth="150.0">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Text>
+      <Label fx:id="niveau" layoutX="330.0" layoutY="51.0" text="Label">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
+      <Text layoutX="330.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score :">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Text>
+      <Label fx:id="score" layoutX="462.0" layoutY="512.0" text="Label">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
+      <Button fx:id="reinitialiser" focusTraversable="false" layoutX="419.0" layoutY="300.0" mnemonicParsing="false" text="Réinitialiser" />
+      <Button focusTraversable="false" layoutX="330.0" layoutY="349.0" mnemonicParsing="false" text="Niveau Précédent" />
+      <Button focusTraversable="false" layoutX="483.0" layoutY="349.0" mnemonicParsing="false" text="Niveau Suivant" />
    </children>
 </AnchorPane>
