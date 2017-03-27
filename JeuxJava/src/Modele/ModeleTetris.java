@@ -6,18 +6,27 @@ import java.util.ArrayList;
 import Base.Case;
 import Base.Piece;
 import Base.Plateau;
+import Vue.TetrisController;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.Event;
+import javafx.event.EventTarget;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class ModeleTetris extends Plateau
 {
     protected ThreadTetris m_thread;
     protected Piece[] m_suivantes;
     protected Case[][] m_caseSuiv;
-    protected int m_score;
+    protected int m_score, m_nbLignes;
     protected Piece m_active;
     protected SimpleStringProperty m_strScore;
+    protected SimpleBooleanProperty m_changeScore;
+    protected boolean m_fini;
 
     public ModeleTetris()
     {
@@ -29,8 +38,12 @@ public class ModeleTetris extends Plateau
         m_suivantes = new Piece[2];
         SetSuiv(0, newPiece());
         SetSuiv(1, newPiece());
+        m_score = 0;
+        m_nbLignes = 0;
+        m_changeScore = new SimpleBooleanProperty();
+        m_changeScore.set(false);
         m_strScore = new SimpleStringProperty();
-        SetScore(0);
+        m_fini = false;
     }
 
     protected void SetSuiv(int index, Piece p)
@@ -48,6 +61,11 @@ public class ModeleTetris extends Plateau
     	m_suivantes[index] = p;
     }
 
+    public void ActuScore()
+    {
+    	SetScore(m_score);
+    }
+
     public StringProperty getSuivProperty(int ligne, int colonne)
 	{
 		if((ligne < 0)
@@ -58,24 +76,50 @@ public class ModeleTetris extends Plateau
 		return m_caseSuiv[ligne][colonne].getCouleurProperty();
 	}
 
+    public int getScore()
+    {
+    	return m_score;
+    }
+
+    public boolean Fini()
+    {
+    	return m_fini;
+    }
+
+    public void setFini(boolean b)
+    {
+    	System.out.println("Fin");
+    	m_fini = b;
+    	if(b)
+    	{
+    		if(m_cases[0][0].getCouleur() == Case._colorVide)
+    		{
+    			m_cases[0][0].setCouleur(m_pieces.get(0).getCouleur());
+    		}
+    		else m_cases[0][0].setCouleur(Case._colorVide);
+    	}
+    }
+
+    public int getNbLignes()
+    {
+    	return m_nbLignes;
+    }
+
     public StringProperty getScoreProperty()
     {
     	return m_strScore;
     }
 
-    public String getScore()
-    {
-    	return "" + m_score;
-    }
-
     protected void SetScore(int s)
     {
     	m_score = s;
-    	m_strScore.set("" + s);
+    	m_strScore.set("Score : " + s);
     }
 
     public void jouer()
     {
+        SetScore(0);
+        m_fini = false;
         Suivante();
     }
 
@@ -132,10 +176,11 @@ public class ModeleTetris extends Plateau
     				m_pieces.remove(m_pieces.get(j));
     				j--;
     			}
-    			SetScore(m_score + modifScore);
-    			modifScore *= 2;
+    			m_nbLignes++;
     		}
     		Actualiser(tab.get(i));
+			m_score += modifScore;
+			modifScore *= 2;
     	}
     	Refresh();
     }

@@ -54,6 +54,7 @@ public class ThreadTetris extends Thread
 		Pause();
 		if(rep > 1)
 			m_modele.Suivante();
+		else m_modele.setFini(true);
 	}
 
 }

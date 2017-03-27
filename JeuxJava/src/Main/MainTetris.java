@@ -27,9 +27,7 @@ public class MainTetris extends Main
 
 		initRootLayout();
 
-		//afficherPlateau(m_rootLayout, this);
 		afficherPlateau(m_rootLayout, this, "../Vue/VueTetris.fxml");
-		m_plateau.jouer();
 	}
 
 

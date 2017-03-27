@@ -3,6 +3,7 @@ package Vue;
 import Base.Case;
 import Graphique.PlateauController;
 import Main.Main;
+import Modele.CasseTete;
 import Modele.ModeleTetris;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,15 +23,15 @@ public class TetrisController extends PlateauController
 
 	@FXML
 	protected AnchorPane anchor;
-
+	/*
 	@FXML
 	protected Label lScore;
-
+	*/
 	protected GridPane gpSuiv1;
 	protected GridPane gpSuiv2;
-	protected SimpleStringProperty m_score;
 	protected SimpleStringProperty[][] m_suivProp;
 	protected Rectangle[][] m_suivRect;
+	protected SimpleStringProperty m_score;
 
 	public TetrisController()
 	{
@@ -63,30 +64,37 @@ public class TetrisController extends PlateauController
 		}
 	}
 
+	protected void update()
+	{
+		super.update();
+/*
+		if(((ModeleTetris)m_main.getPlateau()).Fini())
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Fin du jeu !");
+			int score = ((ModeleTetris)m_main.getPlateau()).getScore();
+			int ligne = ((ModeleTetris)m_main.getPlateau()).getNbLignes();
+			alert.setHeaderText("Vous avez perdu avec un score de " + score + ".\nVous avez complete " + ligne + " lignes.");
+			alert.show();
+		}
+		*/
+	}
+	/*
 	protected void updateScore()
 	{
-		/*
-		String str = "Score : " + ((ModeleTetris)m_main.getPlateau()).getScore();
-		lScore.setText(str);
-		*/
-		lScore.setText( ((ModeleTetris) (m_main.getPlateau())).getScoreProperty().get() );
+		lScore.setText(m_score.get());
 	}
-
+	*/
 	public void setMain(Main main)
 	{
 		super.setMain(main);
 
 		grille.setLayoutX(100);
 		/*
-		lScore = new Label();
-		lScore.setLayoutX(0);
-		lScore.setText("0");
-		*/
-		lScore.setText("0");
 		m_score = new SimpleStringProperty();
-		m_score.bind( ((ModeleTetris) (m_main.getPlateau())).getScoreProperty() );
+		m_score.bind(((ModeleTetris)m_main.getPlateau()).getScoreProperty());
 		m_score.addListener( (ObservableValue<? extends String> obs, String oldV, String newV) -> updateScore() );
-
+	*/
 		gpSuiv1 = new GridPane();
 		gpSuiv1.getChildren().clear();
 		gpSuiv1.getColumnConstraints().clear();
@@ -129,5 +137,7 @@ public class TetrisController extends PlateauController
 		anchor.getChildren().add(gpSuiv1);
 		anchor.getChildren().add(gpSuiv2);
 		//anchor.getChildren().add(lScore);
+
+		((ModeleTetris)m_main.getPlateau()).jouer();
 	}
 }
