@@ -6,6 +6,7 @@ import Main.Main;
 import Main.MainCasseTete;
 import Modele.CasseTete;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -13,6 +14,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
@@ -20,6 +23,23 @@ public class CasseTeteController extends PlateauController
 {
 
 	protected SimpleBooleanProperty[][] m_boolProp;
+	protected SimpleStringProperty m_lvlProp;
+	protected SimpleStringProperty m_scoreProp;
+
+	@FXML
+	Label niveau;
+
+	@FXML
+	Label score;
+
+	@FXML
+	Button lvlsuivant;
+
+	@FXML
+	Button lvlprecedent;
+
+	@FXML
+	Button reinitialiser;
 
 	@FXML
 	AnchorPane anchor;
@@ -64,6 +84,43 @@ public class CasseTeteController extends PlateauController
 		}
 	}
 
+	public void updateLevel()
+	{
+		niveau.setText( ((CasseTete) (m_main.getPlateau())).getLevelProperty().get() );
+	}
+
+	public void updateScore()
+	{
+		score.setText( ((CasseTete) (m_main.getPlateau())).getScoreProperty().get() );
+	}
+
+	public void reinitialise()
+	{
+		((CasseTete) (m_main.getPlateau())).reinitialisation();
+	}
+
+	public void levelsuivant()
+	{
+		if( !((CasseTete) (m_main.getPlateau())).levelSuivant() )
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Impossible !");
+			alert.setHeaderText("Il n'existe pas de niveau suivant.");
+			alert.show();
+		}
+	}
+
+	public void levelprecedent()
+	{
+		if( !((CasseTete) (m_main.getPlateau())).levelPrecedent() )
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Impossible !");
+			alert.setHeaderText("Il n'existe pas de niveau precedent.");
+			alert.show();
+		}
+	}
+
 	public void setMain(Main main)
 	{
 		super.setMain(main);
@@ -79,6 +136,19 @@ public class CasseTeteController extends PlateauController
 				m_boolProp[i][j].addListener((ObservableValue<? extends Boolean> obs, Boolean oldV, Boolean newV) -> updateSelected());
 			}
 		}
+		reinitialiser.setOnMouseClicked(mouseEvent -> reinitialise());
+		lvlsuivant.setOnMouseClicked(mouseEvent -> levelsuivant());
+		lvlprecedent.setOnMouseClicked(mouseEvent -> levelprecedent());
+
+		m_lvlProp = new SimpleStringProperty();
+		m_lvlProp.bind( ((CasseTete) (m_main.getPlateau())).getLevelProperty() );
+		m_lvlProp.addListener( (ObservableValue<? extends String> obs, String oldV, String newV) -> updateLevel() );
+
+		m_scoreProp = new SimpleStringProperty();
+		m_scoreProp.bind( ((CasseTete) (m_main.getPlateau())).getScoreProperty() );
+		m_scoreProp.addListener( (ObservableValue<? extends String> obs, String oldV, String newV) -> updateScore() );
+
+
 	}
 
 
