@@ -58,9 +58,14 @@ public class ModeleTetris extends Plateau
 		return m_caseSuiv[ligne][colonne].getCouleurProperty();
 	}
 
-    public StringProperty getScore()
+    public StringProperty getScoreProperty()
     {
     	return m_strScore;
+    }
+
+    public String getScore()
+    {
+    	return "" + m_score;
     }
 
     protected void SetScore(int s)
@@ -101,7 +106,7 @@ public class ModeleTetris extends Plateau
     protected ArrayList<Integer> LignesPleines()
     {
     	ArrayList<Integer> tab = new ArrayList<Integer>();
-    	for(int i = getHauteur() - 1; i >= 0; i--)
+    	for(int i = 0; i < getHauteur(); i++)
     	{
     		boolean test = true;
     		for(int j = 1; (j < getLargeur()) && test; j++)
@@ -115,61 +120,39 @@ public class ModeleTetris extends Plateau
     protected void SupprimerLignes()
     {
     	ArrayList<Integer> tab = LignesPleines();
-    	ArrayList<Piece> nouv = new ArrayList<Piece>();
-    	int compteur = 0;
+    	int modifScore = 1;
     	for(int i = 0; i < tab.size(); i++)
     	{
-    		int index = tab.get(i) + compteur;
-    		System.out.println("Suppression " + index);
-    		Piece[] temp = new Piece[m_pieces.size()];
     		for(int j = 0; j < m_pieces.size(); j++)
-    			temp[j] = m_pieces.get(j);
-    		for(int j = 0; j < temp.length; j++)
     		{
-    			ArrayList<Piece> np = temp[j].DelLigne(index);
-				m_pieces.remove(temp[j]);
-				for(int k = 0; k < np.size(); k++)
-					nouv.add(np.get(i));
+    			m_pieces.get(j).DelLigne(tab.get(i));
+    			//Si la derniere ligne de la piece est detruite, on elimine la piece
+    			if(m_pieces.get(j).Hauteur() == 0)
+    			{
+    				m_pieces.remove(m_pieces.get(j));
+    				j--;
+    			}
+    			SetScore(m_score + modifScore);
+    			modifScore *= 2;
     		}
-			compteur++;
-    		for(int j = 0; j < nouv.size(); j++)
-    			m_pieces.add(nouv.get(i));
-        	Actualiser(index);
+    		Actualiser(tab.get(i));
     	}
     	Refresh();
     }
 
     protected void Actualiser(int ligne)
     {
-    	/*
-    	boolean test = false;
-    	for(int i = 0; i < m_pieces.size(); i++)
+    	//Redescend toutes les pieces au dessus de la ligne supprimmee
+    	boolean test;
+    	do
     	{
-    		if(m_pieces.get(i).getX() < ligne)
+    		test = false;
+    		for(int i = 0; i < m_pieces.size(); i++)
     		{
-    			while(Move(m_pieces.get(i), 1, 0))
-    				test = true;
+    			if(m_pieces.get(i).getX() < ligne)
+    				test |= Move(m_pieces.get(i), 1, 0);
     		}
-    	}
-    	if(test)
-    		Actualiser(ligne);
-    	*/
-    	ArrayList<Piece> tab = new ArrayList<Piece>();
-    	for(int i = 0; i < m_pieces.size(); i++)
-    	{
-    		if(m_pieces.get(i).getX() < ligne)
-    			tab.add(m_pieces.get(i));
-    	}
-    	while(tab.size() > 0)
-    	{
-    		for(int i = 0; i < tab.size(); i++)
-    		{
-    			if(Move(tab.get(i), 1, 0))
-    			{
-    				tab.remove(tab.get(i));
-    			}
-    		}
-    	}
+    	}while(test);
     }
 
     protected void Refresh()

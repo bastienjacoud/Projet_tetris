@@ -126,14 +126,19 @@ public class Piece
 	public void setForme(boolean[][] f)
 	{
 		boolean[][] forme = Ajuster(f);
-		m_forme = new boolean[forme.length][forme[0].length];
-		for(int i = 0; i < forme.length; i++)
+		if(forme.length == 0)
+			m_forme = new boolean[0][0];
+		else
 		{
-			for(int j = 0; j < forme[0].length; j++)
+			m_forme = new boolean[forme.length][forme[0].length];
+			for(int i = 0; i < forme.length; i++)
 			{
-				m_forme[i][j] = forme[i][j];
-			}
+				for(int j = 0; j < forme[0].length; j++)
+				{
+					m_forme[i][j] = forme[i][j];
+				}
 
+			}
 		}
 	}
 
@@ -337,48 +342,22 @@ public class Piece
 
 	public void DelLigne(int ligne)
 	{
-		/*
-		ArrayList<Piece> np = new ArrayList<Piece>();
-		if((ligne >= getX())
-			&& (ligne < (getX() + Hauteur())))
-		{
-			int id = ligne - getX();
-			//On cree la piece superieure
-			if(id != 0)
-			{
-				boolean[][] f = new boolean[id][Largeur()];
-				for(int i = 0; i < id; i++)
-				{
-					for(int j = 0; j < Largeur(); j++)
-						f[i][j] = m_forme[i][j];
-				}
-				Piece p = new Piece(f, getX(), getY(), getCouleur());
-				np.add(p);
-			}
-			if(id != (Hauteur() - 1))
-			{
-				boolean[][] f = new boolean[Hauteur() - (id + 1)][Largeur()];
-				for(int i = id + 1; i < Hauteur(); i++)
-				{
-					for(int j = 0; j < Largeur(); j++)
-						f[i - (id + 1)][j] = m_forme[i][j];
-				}
-				Piece p = new Piece(f, ligne + 1, getY(), getCouleur());
-				np.add(p);
-			}
-		}
-		else np.add(this);
-		return np;
-		*/
-		id = ligne - getX();
 		if((ligne >= getX()) && (ligne < (getX() + Hauteur())))
 		{
+			int id = ligne - getX();
 			boolean[][] f = new boolean[Hauteur() - 1][Largeur()];
-			for(int i1 = 0; i2 = 0; i1 < Hauteur(); i1++, i2++)
+			for(int i1 = 0, i2 = 0; i1 < Hauteur(); i1++, i2++)
 			{
 				if(i1 == id)
-					i1++;
+					i2--;
+				else
+				{
+					for(int j = 0; j < Largeur(); j++)
+						f[i2][j] = m_forme[i1][j];
+				}
 			}
+			m_x++;
+			setForme(f);
 		}
 	}
 
@@ -416,14 +395,50 @@ public class Piece
 	 */
 	protected boolean[][] Ajuster(boolean[][] forme)
 	{
-		//On teste la premiere colonne
-		boolean test = false;
-		boolean reroll = false;
+		boolean test;
+
+		if(forme.length == 0)
+			return forme;
+
+		//On teste la premiere ligne
+		test = false;
+		for(int i = 0; (i < forme[0].length) && !test; i++)
+			test = forme[0][i];
+		if(!test)
+		{
+			//On enleve la ligne vide
+			boolean[][] f = new boolean[forme.length - 1][forme[0].length];
+			for(int i = 1; i < forme.length; i++)
+			{
+				for(int j = 0; j < forme[0].length; j++)
+					f[i - 1][j] = forme[i][j];
+			}
+			if(m_x >= 0)
+				m_x++;
+			return Ajuster(f);
+		}
+
+		//On teste la derniere ligne
+		test = false;
+		for(int i = 0; (i < forme[0].length) && !test; i++)
+			test = forme[forme.length - 1][i];
+		if(!test)
+		{
+			//On enleve la ligne vide
+			boolean[][] f = new boolean[forme.length - 1][forme[0].length];
+			for(int i = 0; i < ((forme.length) - 1); i++)
+			{
+				for(int j = 0; j < forme[0].length; j++)
+					f[i][j] = forme[i][j];
+			}
+			return Ajuster(f);
+		}
+
+		test = false;
 		for(int i = 0; (i < forme.length) && !test; i++)
 			test = forme[i][0];
 		if(!test)
 		{
-			reroll = true;
 			//On enleve la colonne vide
 			boolean[][] f = new boolean[forme.length][forme[0].length - 1];
 			for(int i = 0; i < forme.length; i++)
@@ -443,47 +458,10 @@ public class Piece
 		if(!test)
 		{
 			//On enleve la colonne vide
-			reroll = true;
 			boolean[][] f = new boolean[forme.length][forme[0].length - 1];
 			for(int i = 0; i < forme.length; i++)
 			{
 				for(int j = 0; j < (forme[0].length - 1); j++)
-					f[i][j] = forme[i][j];
-			}
-			return Ajuster(f);
-		}
-
-		//On teste la premiere ligne
-		test = false;
-		for(int i = 0; (i < forme[0].length) && !test; i++)
-			test = forme[0][i];
-		if(!test)
-		{
-			//On enleve la ligne vide
-			reroll = true;
-			boolean[][] f = new boolean[forme.length - 1][forme[0].length];
-			for(int i = 1; i < forme.length; i++)
-			{
-				for(int j = 0; j < forme[0].length; j++)
-					f[i - 1][j] = forme[i][j];
-			}
-			if(m_x >= 0)
-				m_x++;
-			return Ajuster(f);
-		}
-
-		//On teste la derniere ligne
-		test = false;
-		for(int i = 0; (i < forme[0].length) && !test; i++)
-			test = forme[forme.length - 1][i];
-		if(!test)
-		{
-			//On enleve la ligne vide
-			reroll = true;
-			boolean[][] f = new boolean[forme.length - 1][forme[0].length];
-			for(int i = 0; i < ((forme.length) - 1); i++)
-			{
-				for(int j = 0; j < forme[0].length; j++)
 					f[i][j] = forme[i][j];
 			}
 			return Ajuster(f);
