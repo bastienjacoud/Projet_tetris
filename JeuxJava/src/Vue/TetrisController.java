@@ -75,13 +75,10 @@ public class TetrisController extends PlateauController
 	{
 		super.setMain(main);
 
-		//new ThreadTest(this).start();
-
 		grille.setLayoutX(100);
 		lScore = new Label();
 		lScore.setLayoutX(0);
 		lScore.setText("0");
-		//anchor.getChildren().add(lScore);
 
 		gpSuiv1 = new GridPane();
 		gpSuiv1.getChildren().clear();

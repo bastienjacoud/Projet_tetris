@@ -4,6 +4,7 @@ package Modele;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import Base.Case;
 import Base.Piece;
@@ -78,7 +79,7 @@ public class ModeleTetris extends Plateau
 
     public boolean Suivante()
     {
-    	System.out.println("Suivante");
+    	//Gestion des lignes
     	Piece temp = m_suivantes[0];
     	SetSuiv(0, m_suivantes[1]);
     	SetSuiv(1, newPiece());
@@ -95,6 +96,53 @@ public class ModeleTetris extends Plateau
         }
         m_thread = new ThreadTetris(p, this, 500, 100);
         return bool;
+    }
+
+    /* Retourne la liste des index des lignes pleines
+     */
+    protected ArrayList<Integer> LignesPleines()
+    {
+    	ArrayList<Integer> tab = new ArrayList<Integer>();
+    	for(int i = getHauteur() - 1; i >= 0; i--)
+    	{
+    		boolean test = true;
+    		for(int j = 1; (j < getLargeur()) && test; j++)
+    			test = (m_cases[i][j].getCouleur() != Case._colorVide);
+    		if(test)
+    			tab.add(new Integer(i));
+    	}
+    	return tab;
+    }
+
+    protected void SupprimerLignes()
+    {
+    	ArrayList<Integer> tab = LignesPleines();
+    	int compteur = 0;
+    	for(int i = 0; i < tab.size(); i++)
+    	{
+    		int index = tab.get(i) + compteur;
+    		for(int j = 0; j < m_pieces.size(); j++)
+    		{
+    			m_pieces.get(j).DelLigne(index);
+    			compteur++;
+    		}
+        	Actualiser(index);
+    	}
+    }
+
+    protected void Actualiser(int lignes)
+    {
+    	boolean test = false;
+    	for(int i = 0; i < m_pieces.size(); i++)
+    	{
+    		if(m_pieces.get(i).getX() >= lignes)
+    		{
+    			if(Move(m_pieces.get(i), 0, 1))
+    				test = true;
+    		}
+    	}
+    	if(test)
+    		Actualiser(lignes);
     }
 
     protected static Piece newPiece()
