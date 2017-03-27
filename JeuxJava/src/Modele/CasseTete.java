@@ -301,7 +301,7 @@ public class CasseTete extends Plateau
 	public void jouer()
 	{
 		//Par défaut, le jeu se lance sur le niveau 1
-		initLVL2();
+		initLVL1();
 	}
 
 	public boolean finJeu()
