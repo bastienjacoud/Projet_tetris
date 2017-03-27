@@ -99,9 +99,9 @@ public class PlateauController
 		m_actu = new String[m_h][m_l];
 		m_strProp = new SimpleStringProperty[m_h][m_l];
 
-		for(int i = 0; i < m_h+2; i++)
+		for(int i = 0; i < m_h; i++)
 		{
-			for(int j = 0; j < m_l+2; j++)
+			for(int j = 0; j < m_l; j++)
 			{
 				m_rect[i][j] = new Rectangle();
 				m_rect[i][j].setWidth(30);

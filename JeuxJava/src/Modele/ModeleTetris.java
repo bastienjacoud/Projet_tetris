@@ -80,6 +80,7 @@ public class ModeleTetris extends Plateau
     public boolean Suivante()
     {
     	//Gestion des lignes
+    	SupprimerLignes();
     	Piece temp = m_suivantes[0];
     	SetSuiv(0, m_suivantes[1]);
     	SetSuiv(1, newPiece());
