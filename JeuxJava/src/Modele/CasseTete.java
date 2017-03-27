@@ -10,6 +10,7 @@ import Base.*;
 public class CasseTete extends Plateau
 {
 	private Piece m_piece_sortable;
+	private int m_score;
 
 	public CasseTete()
 	{
@@ -17,6 +18,15 @@ public class CasseTete extends Plateau
 		m_piece_sortable = null;
 	}
 
+	public int getScore()
+	{
+		return m_score;
+	}
+
+	public void setScore(int score)
+	{
+		this.m_score = score;
+	}
 
 	public Piece getPieceSortable()
 	{
@@ -94,16 +104,16 @@ public class CasseTete extends Plateau
 		Piece p7 = new Piece(forme2, -1,-1);
 
 
-		poserPiece(sortable, 3, 2);
+		poserPiece(sortable, 2, 1);
 
-		poserPiece(p1, 1, 1);
+		poserPiece(p1, 0, 0);
 
-		poserPiece(p2, 2, 1);
-		poserPiece(p3, 5, 1);
-		poserPiece(p4, 2, 4);
-		poserPiece(p5, 1, 6);
-		poserPiece(p6, 5, 5);
-		poserPiece(p7, 6, 3);
+		poserPiece(p2, 1, 0);
+		poserPiece(p3, 4, 0);
+		poserPiece(p4, 1, 3);
+		poserPiece(p5, 0, 5);
+		poserPiece(p6, 4, 4);
+		poserPiece(p7, 5, 2);
 
 	}
 
