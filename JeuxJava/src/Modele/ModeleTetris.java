@@ -7,11 +7,8 @@ import Base.Case;
 import Base.Piece;
 import Base.Plateau;
 import Vue.TetrisController;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.input.KeyCode;
 
 public class ModeleTetris extends Plateau
@@ -117,7 +114,6 @@ public class ModeleTetris extends Plateau
     public void jouer()
     {
         SetScore(0);
-        m_observer.updateAll();
         m_fini = false;
         m_thread = new ThreadTetris(this, 500, 100);
     	Piece temp = m_suivantes[0];
@@ -295,12 +291,4 @@ public class ModeleTetris extends Plateau
 				break;
 		}
 	}
-/*
-	public boolean Move(Piece p, int x, int y)
-	{
-		boolean test = super.Move(p, x, y);
-		m_observer.updateAll();
-		return test;
-	}
-	*/
 }

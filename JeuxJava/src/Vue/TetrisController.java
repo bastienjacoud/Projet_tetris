@@ -77,13 +77,6 @@ public class TetrisController extends PlateauController
 		});
 	}
 
-	public void updateAll()
-	{
-		super.update();
-		//updateScore();
-		updateSuiv();
-	}
-
 	public void updateScore()
 	{
 		Platform.runLater(() ->{
@@ -96,11 +89,6 @@ public class TetrisController extends PlateauController
 		super.setMain(main);
 
 		grille.setLayoutX(20);
-		/*
-		m_score = new SimpleStringProperty();
-		m_score.bind(((ModeleTetris)m_main.getPlateau()).getScoreProperty());
-		m_score.addListener( (ObservableValue<? extends String> obs, String oldV, String newV) -> updateScore() );
-		 */
 		((ModeleTetris)m_main.getPlateau()).setObserver(this);
 
 		gpSuiv1 = new GridPane();
@@ -144,9 +132,6 @@ public class TetrisController extends PlateauController
 		gpSuiv2.setLayoutY(150);
 		anchor.getChildren().add(gpSuiv1);
 		anchor.getChildren().add(gpSuiv2);
-		//anchor.getChildren().add(lScore);
-
-		//((ModeleTetris)m_main.getPlateau()).jouer();
 	}
 
 	public void Lancer()
