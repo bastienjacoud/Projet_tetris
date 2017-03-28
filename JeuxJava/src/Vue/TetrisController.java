@@ -67,7 +67,7 @@ public class TetrisController extends PlateauController
 	protected void update()
 	{
 		super.update();
-/*
+		/*
 		if(((ModeleTetris)m_main.getPlateau()).Fini())
 		{
 			Alert alert = new Alert(AlertType.INFORMATION);

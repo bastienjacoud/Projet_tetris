@@ -153,7 +153,7 @@ public class ModeleTetris extends Plateau
     	for(int i = 0; i < getHauteur(); i++)
     	{
     		boolean test = true;
-    		for(int j = 1; (j < getLargeur()) && test; j++)
+    		for(int j = 0; (j < getLargeur()) && test; j++)
     			test = (m_cases[i][j].getCouleur() != Case._colorVide);
     		if(test)
     			tab.add(new Integer(i));
@@ -179,8 +179,11 @@ public class ModeleTetris extends Plateau
     			m_nbLignes++;
     		}
     		Actualiser(tab.get(i));
+    		/*
 			m_score += modifScore;
 			modifScore *= 2;
+			*/
+    		//SetScore(getScore() + modifScore);
     	}
     	Refresh();
     }
