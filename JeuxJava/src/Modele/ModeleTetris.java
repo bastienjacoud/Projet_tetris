@@ -20,13 +20,9 @@ public class ModeleTetris extends Plateau
     protected Piece[] m_suivantes;
     protected Case[][] m_caseSuiv;
     protected int m_score, m_nbLignes;
-    protected SimpleIntegerProperty m_propScore, m_propLigne;
     protected Piece m_active;
-    protected SimpleStringProperty m_strScore;
-    protected SimpleBooleanProperty m_changeScore;
     protected boolean m_fini;
     protected TetrisController m_observer;
-    protected int m_vitesse;
 
     public ModeleTetris()
     {
@@ -38,13 +34,7 @@ public class ModeleTetris extends Plateau
         m_suivantes = new Piece[2];
         SetSuiv(0, newPiece());
         SetSuiv(1, newPiece());
-        m_vitesse = 500;
         m_nbLignes = 0;
-        m_changeScore = new SimpleBooleanProperty();
-        m_changeScore.addListener((ObservableValue<? extends Boolean> obs, Boolean oldV, Boolean newV) -> updateScore());
-        m_changeScore.set(false);
-        m_strScore = new SimpleStringProperty();
-        m_propScore = new SimpleIntegerProperty(0);
         m_fini = false;
     }
 
@@ -76,11 +66,6 @@ public class ModeleTetris extends Plateau
     public void ActuScore()
     {
     	SetScore(m_score);
-    }
-
-    public SimpleIntegerProperty getPropScore()
-    {
-    	return m_propScore;
     }
 
     public StringProperty getSuivProperty(int ligne, int colonne)
@@ -118,15 +103,9 @@ public class ModeleTetris extends Plateau
     	return m_nbLignes;
     }
 
-    public StringProperty getScoreProperty()
-    {
-    	return m_strScore;
-    }
-
     protected void SetScore(int s)
     {
     	m_score = s;
-    	//m_changeScore.set(!m_changeScore.get());
 		m_observer.updateScore();
     }
 
@@ -204,6 +183,7 @@ public class ModeleTetris extends Plateau
 			m_nbLignes++;
     		Actualiser(tab.get(i));
 			SetScore(m_score + modifScore);
+			modifScore *= 2;
     	}
     	Refresh();
     }
@@ -294,8 +274,6 @@ public class ModeleTetris extends Plateau
 				if(m_active != null)
 					Move(m_active, 0, -1);
 				break;
-			case S:
-				SetScore(m_score+1);
 			default :
 				break;
 		}
@@ -317,11 +295,12 @@ public class ModeleTetris extends Plateau
 				break;
 		}
 	}
-
+/*
 	public boolean Move(Piece p, int x, int y)
 	{
 		boolean test = super.Move(p, x, y);
 		m_observer.updateAll();
 		return test;
 	}
+	*/
 }
