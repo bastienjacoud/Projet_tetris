@@ -11,14 +11,12 @@ public class ThreadTetris extends Thread
 	protected ModeleTetris m_modele;
 	protected double m_normal, m_accelere, m_actu;
 
-	public ThreadTetris(Piece p, ModeleTetris m, double t1, double t2)
+	public ThreadTetris(ModeleTetris m, double t1, double t2)
 	{
-		m_piece = p;
 		m_modele = m;
 		m_normal = t1;
 		m_accelere = t2;
 		m_actu = m_normal;
-		this.start();
 	}
 
 	protected void Pause()
@@ -43,18 +41,33 @@ public class ThreadTetris extends Thread
 		m_actu = m_normal;
 	}
 
-	public void run()
+	public boolean PieceOK(Piece p)
+	{
+		return (p == null) || (p.getX() < 0) || (p.getY() < 0);
+	}
+
+	public void Action()
 	{
 		int rep = 0;
 		do
 		{
-			rep++;
+			if(m_modele.getActive() != null)
+				rep++;
 			Pause();
-		}while(m_modele.Move(m_piece, 1, 0));
+		}while(PieceOK(m_modele.getActive()) || (m_modele.Move(m_modele.getActive(), 1, 0)));
+		m_modele.setActive(null);
 		Pause();
 		if(rep > 1)
+		{
 			m_modele.Suivante();
+			Action();
+		}
 		else m_modele.setFini(true);
+	}
+
+	public void run()
+	{
+		Action();
 	}
 
 }

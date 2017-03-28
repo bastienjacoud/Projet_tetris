@@ -4,10 +4,9 @@ import java.io.IOException;
 
 
 import Modele.ModeleTetris;
-import javafx.event.EventHandler;
+import Vue.TetrisController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -28,6 +27,7 @@ public class MainTetris extends Main
 		initRootLayout();
 
 		afficherPlateau(m_rootLayout, this, "../Vue/VueTetris.fxml");
+		((TetrisController)m_controller).Lancer();
 	}
 
 
