@@ -7,15 +7,9 @@ import Base.Case;
 import Base.Piece;
 import Base.Plateau;
 import Vue.TetrisController;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.Event;
-import javafx.event.EventTarget;
-import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class ModeleTetris extends Plateau
 {
@@ -24,9 +18,8 @@ public class ModeleTetris extends Plateau
     protected Case[][] m_caseSuiv;
     protected int m_score, m_nbLignes;
     protected Piece m_active;
-    protected SimpleStringProperty m_strScore;
-    protected SimpleBooleanProperty m_changeScore;
     protected boolean m_fini;
+    protected TetrisController m_observer;
 
     public ModeleTetris()
     {
@@ -38,12 +31,13 @@ public class ModeleTetris extends Plateau
         m_suivantes = new Piece[2];
         SetSuiv(0, newPiece());
         SetSuiv(1, newPiece());
-        m_score = 0;
         m_nbLignes = 0;
-        m_changeScore = new SimpleBooleanProperty();
-        m_changeScore.set(false);
-        m_strScore = new SimpleStringProperty();
         m_fini = false;
+    }
+
+    public void setObserver(TetrisController o)
+    {
+    	m_observer = o;
     }
 
     protected void SetSuiv(int index, Piece p)
@@ -59,6 +53,11 @@ public class ModeleTetris extends Plateau
     		}
     	}
     	m_suivantes[index] = p;
+    }
+
+    public void  setActive(Piece p)
+    {
+    	m_active = p;
     }
 
     public void ActuScore()
@@ -88,15 +87,11 @@ public class ModeleTetris extends Plateau
 
     public void setFini(boolean b)
     {
-    	System.out.println("Fin");
     	m_fini = b;
     	if(b)
     	{
-    		if(m_cases[0][0].getCouleur() == Case._colorVide)
-    		{
-    			m_cases[0][0].setCouleur(m_pieces.get(0).getCouleur());
-    		}
-    		else m_cases[0][0].setCouleur(Case._colorVide);
+        	System.out.println("Fin");
+        	m_observer.updateFin();
     	}
     }
 
@@ -105,22 +100,27 @@ public class ModeleTetris extends Plateau
     	return m_nbLignes;
     }
 
-    public StringProperty getScoreProperty()
-    {
-    	return m_strScore;
-    }
-
     protected void SetScore(int s)
     {
     	m_score = s;
-    	m_strScore.set("Score : " + s);
+		m_observer.updateScore();
+    }
+
+    protected void updateScore()
+    {
+    	m_observer.updateScore();
     }
 
     public void jouer()
     {
         SetScore(0);
         m_fini = false;
-        Suivante();
+        m_thread = new ThreadTetris(this, 500, 100);
+    	Piece temp = m_suivantes[0];
+    	SetSuiv(0, m_suivantes[1]);
+    	SetSuiv(1, newPiece());
+    	m_thread.start();
+    	poserPiece(temp, 0, 3);
     }
 
     public boolean Suivante()
@@ -141,7 +141,6 @@ public class ModeleTetris extends Plateau
         {
         	m_active = null;
         }
-        m_thread = new ThreadTetris(p, this, 500, 100);
         return bool;
     }
 
@@ -176,14 +175,12 @@ public class ModeleTetris extends Plateau
     				m_pieces.remove(m_pieces.get(j));
     				j--;
     			}
-    			m_nbLignes++;
     		}
+			m_nbLignes++;
     		Actualiser(tab.get(i));
-    		/*
-			m_score += modifScore;
+
+			SetScore(m_score + modifScore);
 			modifScore *= 2;
-			*/
-    		//SetScore(getScore() + modifScore);
     	}
     	Refresh();
     }
@@ -260,8 +257,7 @@ public class ModeleTetris extends Plateau
 		switch(keyCode)
 		{
 			case DOWN:
-				if(m_thread != null)
-					m_thread.Accelerer();
+				m_thread.Accelerer();
 				break;
 			case UP:
 				if(m_active != null)
@@ -275,11 +271,14 @@ public class ModeleTetris extends Plateau
 				if(m_active != null)
 					Move(m_active, 0, -1);
 				break;
-			case S:
-				SetScore(m_score+1);
 			default :
 				break;
 		}
+	}
+
+	public Piece getActive()
+	{
+		return m_active;
 	}
 
 	public void handleKeyReleased(KeyCode keyCode)
@@ -287,8 +286,7 @@ public class ModeleTetris extends Plateau
 		switch(keyCode)
 		{
 			case DOWN:
-				if(m_thread != null)
-					m_thread.Normal();
+				m_thread.Normal();
 				break;
 			default :
 				break;
