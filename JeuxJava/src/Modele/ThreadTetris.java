@@ -1,8 +1,5 @@
 package Modele;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import Base.Piece;
 
 public class ThreadTetris extends Thread

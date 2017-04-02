@@ -1,6 +1,5 @@
 package Base;
 
-import javafx.scene.paint.Color;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;

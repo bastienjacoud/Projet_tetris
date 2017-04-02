@@ -1,26 +1,15 @@
 package Main;
 
 import java.io.IOException;
-import java.awt.Color;
 import Base.*;
-
 import javafx.application.Application;
-import javafx.beans.Observable;
-import javafx.beans.value.ObservableObjectValue;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import java.io.IOException;
 import Graphique.*;
 
 public class Main extends Application
