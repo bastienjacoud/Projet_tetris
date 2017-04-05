@@ -1,9 +1,5 @@
 package Modele;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.input.KeyCode;
-
 import Base.*;
 
 public class CasseTete extends Plateau
