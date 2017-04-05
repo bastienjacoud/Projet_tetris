@@ -3,7 +3,6 @@ package Base;
 import java.util.ArrayList;
 
 import Graphique.PlateauController;
-import javafx.scene.input.KeyCode;
 
 public class Plateau
 {
@@ -342,12 +341,12 @@ public class Plateau
 		m_observer.update();
 	}
 
-	public void handleKeyPressed(KeyCode keyCode)
+	public void handleKeyPressed(String keyCode)
 	{
-
+		//
 	}
 
-	public void handleKeyReleased(KeyCode keyCode)
+	public void handleKeyReleased(String keyCode)
 	{
 		//
 	}

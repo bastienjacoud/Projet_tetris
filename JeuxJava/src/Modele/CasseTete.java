@@ -70,13 +70,13 @@ public class CasseTete extends Plateau
 	}
 
 
-	public void handleKeyPressed(KeyCode keyCode)
+	public void handleKeyPressed(String keyCode)
 	{
 		if(!finJeu())
 		{
 			switch(keyCode)
 			{
-				case DOWN:
+				case "Down":
 					if(m_piece_sortable != null)
 					{
 						if(estVerticale(m_piece_sortable))
@@ -86,7 +86,7 @@ public class CasseTete extends Plateau
 						}
 					}
 					break;
-				case UP:
+				case "Up":
 					if(m_piece_sortable != null)
 					{
 						if(estVerticale(m_piece_sortable))
@@ -96,7 +96,7 @@ public class CasseTete extends Plateau
 						}
 					}
 					break;
-				case RIGHT:
+				case "Right":
 					if(m_piece_sortable != null)
 					{
 						if(estHorizontale(m_piece_sortable))
@@ -106,7 +106,7 @@ public class CasseTete extends Plateau
 						}
 					}
 					break;
-				case LEFT:
+				case "Left":
 					if(m_piece_sortable != null)
 					{
 						if(estHorizontale(m_piece_sortable))
@@ -116,7 +116,7 @@ public class CasseTete extends Plateau
 						}
 					}
 					break;
-				case C:
+				case "C":
 					if((m_piece_sortable == null) || (super.getIndex(m_piece_sortable)+1 == super.getPieces().size()) )
 					{
 						if(m_piece_sortable != null)
@@ -130,6 +130,8 @@ public class CasseTete extends Plateau
 						m_piece_sortable = super.getPieces().get(super.getIndex(m_piece_sortable)+1);
 						super.selectionne(m_piece_sortable);
 					}
+					if(m_observer != null)
+						m_observer.updateSelected();
 					break;
 				default :
 					break;

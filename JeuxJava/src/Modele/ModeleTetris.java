@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import Base.Case;
 import Base.Piece;
 import Base.Plateau;
-import javafx.scene.input.KeyCode;
 
 public class ModeleTetris extends Plateau
 {
@@ -233,24 +232,36 @@ public class ModeleTetris extends Plateau
         return new Piece(forme);
     }
 
-	public void handleKeyPressed(KeyCode keyCode)
+	public void handleKeyPressed(String keyCode)
 	{
 		switch(keyCode)
 		{
-			case DOWN:
+			case "Down":
 				m_thread.Accelerer();
 				break;
-			case UP:
+			case "Up":
 				if(m_active != null)
 					Rotate(m_active, true);
 				break;
-			case RIGHT:
+			case "Right":
 				if(m_active != null)
 					Move(m_active, 0, 1);
 				break;
-			case LEFT:
+			case "Left":
 				if(m_active != null)
 					Move(m_active, 0, -1);
+				break;
+			default :
+				break;
+		}
+	}
+
+	public void handleKeyReleased(String keyCode)
+	{
+		switch(keyCode)
+		{
+			case "Down":
+				m_thread.Normal();
 				break;
 			default :
 				break;
@@ -270,17 +281,5 @@ public class ModeleTetris extends Plateau
 	public Piece getActive()
 	{
 		return m_active;
-	}
-
-	public void handleKeyReleased(KeyCode keyCode)
-	{
-		switch(keyCode)
-		{
-			case DOWN:
-				m_thread.Normal();
-				break;
-			default :
-				break;
-		}
 	}
 }

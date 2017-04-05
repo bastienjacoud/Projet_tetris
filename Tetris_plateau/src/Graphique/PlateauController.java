@@ -51,6 +51,11 @@ public class PlateauController
 		//
 	}
 
+	public void updateSelected()
+	{
+		//
+	}
+
 	protected Color NewPaint(String str)
 	{
 		//if(m_main.m_plateau.Contains(x, y).getSelected())

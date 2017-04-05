@@ -82,7 +82,7 @@ public class Main extends Application
 			@Override
 			public void handle(KeyEvent event)
 			{
-				m_plateau.handleKeyPressed(event.getCode());
+				m_plateau.handleKeyPressed(event.getCode().getName());
 			}
 
 		});
@@ -93,7 +93,7 @@ public class Main extends Application
 			@Override
 			public void handle(KeyEvent event)
 			{
-				m_plateau.handleKeyReleased(event.getCode());
+				m_plateau.handleKeyReleased(event.getCode().getName());
 			}
 
 		});
