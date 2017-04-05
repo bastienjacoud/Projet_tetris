@@ -77,10 +77,7 @@ public class ModeleTetris extends Plateau
     {
     	m_fini = b;
     	if(b)
-    	{
-        	System.out.println("Fin");
         	m_observer.updateFin();
-    	}
     }
 
     public int getNbLignes()

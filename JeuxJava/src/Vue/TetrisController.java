@@ -49,7 +49,6 @@ public class TetrisController extends PlateauController
 				for(int j = 0; j < 4; j++)
 				{
 					String str = m_main.getPlateau().getSuiv(i, j);
-					System.out.println("[" + i + "][" + j + "] updated");
 					//On actualise le rectangle
 					m_suivRect[i][j].setFill(NewPaint(str));
 					if(str == Case._colorVide)
