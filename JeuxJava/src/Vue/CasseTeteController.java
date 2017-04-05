@@ -16,9 +16,9 @@ import javafx.scene.layout.AnchorPane;
 public class CasseTeteController extends PlateauController
 {
 
-	protected SimpleBooleanProperty[][] m_boolProp;
-	protected SimpleStringProperty m_lvlProp;
-	protected SimpleStringProperty m_scoreProp;
+	protected boolean[][] m_select;
+	protected String m_lvl;
+	protected String m_score;
 
 	@FXML
 	Label niveau;
@@ -51,7 +51,7 @@ public class CasseTeteController extends PlateauController
 
 
 	@Override
-	protected void update()
+	public void update()
 	{
 		super.update();
 
@@ -80,12 +80,12 @@ public class CasseTeteController extends PlateauController
 
 	public void updateLevel()
 	{
-		niveau.setText( ((CasseTete) (m_main.getPlateau())).getLevelProperty().get() );
+		niveau.setText("" + m_main.getPlateau().getLevel());
 	}
 
 	public void updateScore()
 	{
-		score.setText( ((CasseTete) (m_main.getPlateau())).getScoreProperty().get() );
+		score.setText("" + ((CasseTete) (m_main.getPlateau())).getScore() );
 	}
 
 	public void reinitialise()
@@ -120,29 +120,19 @@ public class CasseTeteController extends PlateauController
 		super.setMain(main);
 
 		//Ajoute un listener sur chaque case pour afficher une sélection.
-		m_boolProp = new SimpleBooleanProperty[m_h][m_l];
+		m_select = new boolean[m_h][m_l];
 		for(int i = 0; i < m_h; i++)
 		{
 			for(int j = 0; j < m_l; j++)
-			{
-				m_boolProp[i][j] = new SimpleBooleanProperty();
-				m_boolProp[i][j].bind(m_main.getPlateau().getSelectedProperty(i, j));
-				m_boolProp[i][j].addListener((ObservableValue<? extends Boolean> obs, Boolean oldV, Boolean newV) -> updateSelected());
-			}
+				m_select[i][j] = m_main.getPlateau().getSelected(i, j);
 		}
 		reinitialiser.setOnMouseClicked(mouseEvent -> reinitialise());
 		lvlsuivant.setOnMouseClicked(mouseEvent -> levelsuivant());
 		lvlprecedent.setOnMouseClicked(mouseEvent -> levelprecedent());
 
-		m_lvlProp = new SimpleStringProperty();
-		m_lvlProp.bind( ((CasseTete) (m_main.getPlateau())).getLevelProperty() );
-		m_lvlProp.addListener( (ObservableValue<? extends String> obs, String oldV, String newV) -> updateLevel() );
+		m_lvl = "";
 
-		m_scoreProp = new SimpleStringProperty();
-		m_scoreProp.bind( ((CasseTete) (m_main.getPlateau())).getScoreProperty() );
-		m_scoreProp.addListener( (ObservableValue<? extends String> obs, String oldV, String newV) -> updateScore() );
-
-
+		m_score = "";
 	}
 
 

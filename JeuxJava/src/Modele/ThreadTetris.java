@@ -54,11 +54,8 @@ public class ThreadTetris extends Thread
 		}while(PieceOK(m_modele.getActive()) || (m_modele.Move(m_modele.getActive(), 1, 0)));
 		m_modele.setActive(null);
 		Pause();
-		if(rep > 1)
-		{
-			m_modele.Suivante();
+		if((rep > 1) && m_modele.Suivante())
 			Action();
-		}
 		else m_modele.setFini(true);
 	}
 

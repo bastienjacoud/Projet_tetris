@@ -9,80 +9,44 @@ import Base.*;
 public class CasseTete extends Plateau
 {
 	private Piece m_piece_sortable;
-	private StringProperty m_score;
-	private int m_scoreInt;
-	private StringProperty m_level;
-	private int m_levelInt;
+	private int m_score;
+	private int m_level;
 
 	public CasseTete()
 	{
 		super(6,6);
 		m_piece_sortable = null;
-		m_score = new SimpleStringProperty();
-		m_scoreInt=-1;
-		m_score.set("" + m_scoreInt);
+		m_score = -1;
 		//quand aucun niveau n'est chargé
-		m_level = new SimpleStringProperty();
-		m_levelInt = 0;
-		m_level.set("" + m_levelInt);
+		m_level = 0;
 	}
 
-	public int getScoreInt()
-	{
-		return m_scoreInt;
-	}
-
-	public void setScoreInt(int score)
-	{
-		m_scoreInt = score;
-	}
-
-	public int getLevelInt()
-	{
-		return m_levelInt;
-	}
-
-	public void setLevelInt(int level)
-	{
-		m_levelInt = level;
-	}
-
-	public StringProperty getLevelProperty()
-	{
-		return m_level;
-	}
-
-	public String getLevel()
-	{
-		return m_level.get();
-	}
-
-	public void setLevel(String level)
-	{
-		m_level.set(level);
-	}
-
-	public String getScore()
-	{
-		return m_score.get();
-	}
-
-	public StringProperty getScoreProperty()
+	public int getScore()
 	{
 		return m_score;
 	}
 
-	public void setScore(String score)
+	public void setScore(int score)
 	{
-		this.m_score.set(score);
+		m_score = score;
+		m_observer.updateScore();
+	}
+
+	public int getLevel()
+	{
+		return m_level;
+	}
+
+	public void setLevel(int level)
+	{
+		m_level = level;
+		m_observer.updateLevel();
 	}
 
 	public Piece getPieceSortable()
 	{
 		return m_piece_sortable;
 	}
-
-
 
 	public void setPieceSortable(Piece p)
 	{
@@ -118,10 +82,7 @@ public class CasseTete extends Plateau
 						if(estVerticale(m_piece_sortable))
 						{
 							if(super.Move(m_piece_sortable, 1, 0))
-							{
-								m_scoreInt++;
-								m_score.set( "" + m_scoreInt );
-							}
+								setScore(m_score + 1);
 						}
 					}
 					break;
@@ -131,10 +92,7 @@ public class CasseTete extends Plateau
 						if(estVerticale(m_piece_sortable))
 						{
 							if(super.Move(m_piece_sortable, -1, 0))
-							{
-								m_scoreInt++;
-								m_score.set( "" + m_scoreInt );
-							}
+								setScore(m_score + 1);
 						}
 					}
 					break;
@@ -144,10 +102,7 @@ public class CasseTete extends Plateau
 						if(estHorizontale(m_piece_sortable))
 						{
 							if(super.Move(m_piece_sortable, 0, 1))
-							{
-								m_scoreInt++;
-								m_score.set( "" + m_scoreInt );
-							}
+								setScore(m_score + 1);
 						}
 					}
 					break;
@@ -157,10 +112,7 @@ public class CasseTete extends Plateau
 						if(estHorizontale(m_piece_sortable))
 						{
 							if(super.Move(m_piece_sortable, 0, -1))
-							{
-								m_scoreInt++;
-								m_score.set( "" + m_scoreInt );
-							}
+								setScore(m_score + 1);
 						}
 					}
 					break;
@@ -188,10 +140,8 @@ public class CasseTete extends Plateau
 
 	public void initLVL1()
 	{
-		this.setLevelInt(1);
-		this.setLevel("" + getLevelInt());
-		this.setScoreInt(0);
-		this.setScore("" + getScoreInt());
+		this.setLevel(1);
+		this.setScore(0);
 		boolean[][] forme1 = new boolean[][] {{true,true}};
 		boolean[][] forme2 = new boolean[][] {{true,true,true}};
 		boolean[][] forme3 = new boolean[][] {{true},{true},{true}};
@@ -222,10 +172,8 @@ public class CasseTete extends Plateau
 
 	public void initLVL2()
 	{
-		this.setLevelInt(2);
-		this.setLevel("" + getLevelInt());
-		this.setScoreInt(0);
-		this.setScore("" + getScoreInt());
+		this.setLevel(2);
+		this.setScore(0);
 
 		boolean[][] forme1 = new boolean[][] {{true,true}};
 		boolean[][] forme2 = new boolean[][] {{true,true,true}};
@@ -276,24 +224,24 @@ public class CasseTete extends Plateau
 
 	public void reinitialisation()
 	{
-		switch(m_levelInt)
+		switch(m_level)
 		{
-		case 1:
-			reinit();
-			initLVL1();
-			break;
-		case 2:
-			reinit();
-			initLVL2();
-			break;
-		default:
-			break;
+			case 1:
+				reinit();
+				initLVL1();
+				break;
+			case 2:
+				reinit();
+				initLVL2();
+				break;
+			default:
+				break;
 		}
 	}
 
 	public boolean levelSuivant()
 	{
-		int levelActuel = m_levelInt;
+		int levelActuel = m_level;
 		switch(levelActuel)
 		{
 			case 1:
@@ -309,7 +257,7 @@ public class CasseTete extends Plateau
 
 	public boolean levelPrecedent()
 	{
-		int levelActuel = m_levelInt;
+		int levelActuel = m_level;
 		switch(levelActuel)
 		{
 			case 2:

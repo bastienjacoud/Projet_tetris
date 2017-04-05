@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import Base.Case;
 import Base.Piece;
 import Base.Plateau;
-import Vue.TetrisController;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.input.KeyCode;
 
 public class ModeleTetris extends Plateau
@@ -19,7 +16,6 @@ public class ModeleTetris extends Plateau
     protected int m_score, m_nbLignes;
     protected Piece m_active;
     protected boolean m_fini;
-    protected TetrisController m_observer;
 
     public ModeleTetris()
     {
@@ -35,11 +31,6 @@ public class ModeleTetris extends Plateau
         m_fini = false;
     }
 
-    public void setObserver(TetrisController o)
-    {
-    	m_observer = o;
-    }
-
     protected void SetSuiv(int index, Piece p)
     {
     	boolean[][] f = p.getForme();
@@ -53,6 +44,8 @@ public class ModeleTetris extends Plateau
     		}
     	}
     	m_suivantes[index] = p;
+    	if(m_observer != null)
+    		m_observer.updateSuiv();
     }
 
     public void  setActive(Piece p)
@@ -60,19 +53,14 @@ public class ModeleTetris extends Plateau
     	m_active = p;
     }
 
-    public void ActuScore()
-    {
-    	SetScore(m_score);
-    }
-
-    public StringProperty getSuivProperty(int ligne, int colonne)
+    public String getSuiv(int ligne, int colonne)
 	{
 		if((ligne < 0)
 			|| (ligne >= m_caseSuiv.length)
 			|| (colonne < 0)
 			|| (colonne >= m_caseSuiv[ligne].length))
-			return new SimpleStringProperty(Case._colorVide);
-		return m_caseSuiv[ligne][colonne].getCouleurProperty();
+			return Case._colorVide;
+		return m_caseSuiv[ligne][colonne].getCouleur();
 	}
 
     public int getScore()
@@ -103,12 +91,8 @@ public class ModeleTetris extends Plateau
     protected void SetScore(int s)
     {
     	m_score = s;
-		m_observer.updateScore();
-    }
-
-    protected void updateScore()
-    {
-    	m_observer.updateScore();
+    	if(m_observer != null)
+    		m_observer.updateScore();
     }
 
     public void jouer()
@@ -119,6 +103,7 @@ public class ModeleTetris extends Plateau
     	Piece temp = m_suivantes[0];
     	SetSuiv(0, m_suivantes[1]);
     	SetSuiv(1, newPiece());
+    	updateAll();
     	m_thread.start();
     	poserPiece(temp, 0, 3);
     }
@@ -138,9 +123,7 @@ public class ModeleTetris extends Plateau
     	m_active = p;
         boolean bool = super.poserPiece(p, px, py);
         if(!bool)
-        {
         	m_active = null;
-        }
         return bool;
     }
 
@@ -178,11 +161,12 @@ public class ModeleTetris extends Plateau
     		}
 			m_nbLignes++;
     		Actualiser(tab.get(i));
-
 			SetScore(m_score + modifScore);
 			modifScore *= 2;
     	}
     	Refresh();
+    	if(m_observer != null)
+    	m_observer.update();
     }
 
     protected void Actualiser(int ligne)
@@ -273,6 +257,16 @@ public class ModeleTetris extends Plateau
 				break;
 			default :
 				break;
+		}
+	}
+
+	protected void updateAll()
+	{
+		if(m_observer != null)
+		{
+			m_observer.update();
+			m_observer.updateScore();
+			m_observer.updateSuiv();
 		}
 	}
 

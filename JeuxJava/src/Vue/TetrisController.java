@@ -27,9 +27,8 @@ public class TetrisController extends PlateauController
 
 	protected GridPane gpSuiv1;
 	protected GridPane gpSuiv2;
-	protected SimpleStringProperty[][] m_suivProp;
 	protected Rectangle[][] m_suivRect;
-	protected SimpleStringProperty m_score;
+	protected String m_score;
 
 	public TetrisController()
 	{
@@ -42,45 +41,44 @@ public class TetrisController extends PlateauController
 		//
 	}
 
-	protected void updateSuiv()
+	public void updateSuiv()
 	{
-		for(int i = 0; i < 4; i++)
-		{
-			for(int j = 0; j < 4; j++)
+		Platform.runLater(() -> {
+			for(int i = 0; i < 4; i++)
 			{
-				//On actualise le rectangle
-				m_suivRect[i][j].setFill(NewPaint(m_suivProp[i][j].get()));
-				if(m_suivProp[i][j].get() == Case._colorVide)
+				for(int j = 0; j < 4; j++)
 				{
-					m_suivRect[i][j].setStrokeWidth(0);
-				}
-				else
-				{
-					m_suivRect[i][j].setStrokeWidth(1);
+					String str = m_main.getPlateau().getSuiv(i, j);
+					System.out.println("[" + i + "][" + j + "] updated");
+					//On actualise le rectangle
+					m_suivRect[i][j].setFill(NewPaint(str));
+					if(str == Case._colorVide)
+						m_suivRect[i][j].setStrokeWidth(0);
+					else m_suivRect[i][j].setStrokeWidth(1);
 				}
 			}
-		}
+		});
 	}
 
 	public void updateFin()
 	{
-		Platform.runLater(() ->{
-		if(((ModeleTetris)m_main.getPlateau()).Fini())
-		{
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Fin du jeu !");
-			int score = ((ModeleTetris)m_main.getPlateau()).getScore();
-			int ligne = ((ModeleTetris)m_main.getPlateau()).getNbLignes();
-			alert.setHeaderText("Vous avez perdu avec un score de " + score + ".\nVous avez complete " + ligne + " lignes.");
-			alert.show();
-		}
+		Platform.runLater(() -> {
+			if(((ModeleTetris)m_main.getPlateau()).Fini())
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Fin du jeu !");
+				int score = m_main.getPlateau().getScore();
+				int ligne = m_main.getPlateau().getNbLignes();
+				alert.setHeaderText("Vous avez perdu avec un score de " + score + ".\nVous avez complete " + ligne + " lignes.");
+				alert.show();
+			}
 		});
 	}
 
 	public void updateScore()
 	{
-		Platform.runLater(() ->{
-		lScore.setText("Score : " + ((ModeleTetris)m_main.getPlateau()).getScore());
+		Platform.runLater(() -> {
+			lScore.setText("Score : " + m_main.getPlateau().getScore());
 		});
 	}
 
@@ -89,7 +87,6 @@ public class TetrisController extends PlateauController
 		super.setMain(main);
 
 		grille.setLayoutX(20);
-		((ModeleTetris)m_main.getPlateau()).setObserver(this);
 
 		gpSuiv1 = new GridPane();
 		gpSuiv1.getChildren().clear();
@@ -104,7 +101,6 @@ public class TetrisController extends PlateauController
 		gpSuiv2.setPrefSize(60, 120);
 
 		m_suivRect = new Rectangle[4][4];
-		m_suivProp = new SimpleStringProperty[4][4];
 
 		for(int i = 0; i < 4; i++)
 		{
@@ -117,9 +113,6 @@ public class TetrisController extends PlateauController
 				m_suivRect[i][j].setFill(Color.TRANSPARENT);
 				m_suivRect[i][j].setStroke(Color.BLACK);
 				m_suivRect[i][j].setStrokeWidth(0);
-				m_suivProp[i][j] = new SimpleStringProperty();
-				m_suivProp[i][j].bind(((ModeleTetris)m_main.getPlateau()).getSuivProperty(i, j));
-				m_suivProp[i][j].addListener((ObservableValue<? extends String> obs, String oldV, String newV) -> updateSuiv());
 				//On ajoute le rectangle à la grille
 				if(i < 2)
 					gpSuiv1.add(m_suivRect[i][j], j, i);

@@ -1,7 +1,5 @@
 package Graphique;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -10,12 +8,12 @@ import javafx.scene.shape.StrokeType;
 import Main.*;
 
 import Base.Case;
+import Base.Plateau;
 
 public class PlateauController
 {
 	protected Main m_main;
 	protected int m_h, m_l;
-	protected SimpleStringProperty[][] m_strProp;
 	protected String[][] m_actu;
 	protected Rectangle[][] m_rect;
 
@@ -29,6 +27,26 @@ public class PlateauController
 
 	@FXML
     private void initialize()
+	{
+		//
+	}
+
+	public void updateFin()
+	{
+		//
+	}
+
+	public void updateScore()
+	{
+		//
+	}
+
+	public void updateSuiv()
+	{
+		//
+	}
+
+	public void updateLevel()
 	{
 		//
 	}
@@ -65,19 +83,20 @@ public class PlateauController
 	}
 
 
-	protected void update()
+	public void update()
 	{
 		for(int i = 0; i < m_h; i++)
 		{
 			for(int j = 0; j < m_l; j++)
 			{
 				//Pour chaque cas, on regarde si la couleur a change
-				if(m_actu[i][j] != m_strProp[i][j].get())
+				String str;
+				if(m_actu[i][j] != (str = m_main.getPlateau().getString(i, j)))
 				{
 					//Si ca a change, on actualise le rectangle
-					m_actu[i][j] = m_strProp[i][j].get();
-					m_rect[i][j].setFill(NewPaint(m_actu[i][j]));
-					if(m_actu[i][j] == Case._colorVide)
+					m_actu[i][j] = str;
+					m_rect[i][j].setFill(NewPaint(str));
+					if(str == Case._colorVide)
 						m_rect[i][j].setStroke(Color.GREY);
 					else m_rect[i][j].setStroke(Color.BLACK);
 				}
@@ -85,9 +104,15 @@ public class PlateauController
 		}
 	}
 
+	protected void Observe(Plateau p)
+	{
+		p.setObserver(this);
+	}
+
 	public void setMain(Main main)
 	{
 		this.m_main = main;
+		Observe(m_main.getPlateau());
 		m_h = m_main.getPlateau().getHauteur();
 		m_l = m_main.getPlateau().getLargeur();
 		grille.getChildren().clear();
@@ -97,7 +122,6 @@ public class PlateauController
 
 		m_rect = new Rectangle[m_h][m_l];
 		m_actu = new String[m_h][m_l];
-		m_strProp = new SimpleStringProperty[m_h][m_l];
 		for(int i = 0; i < m_h; i++)
 		{
 			for(int j = 0; j < m_l; j++)
@@ -111,9 +135,6 @@ public class PlateauController
 				m_rect[i][j].setStroke(Color.GREY);
 				m_rect[i][j].setStrokeType(StrokeType.INSIDE);
 				m_rect[i][j].setStrokeWidth(1);
-				m_strProp[i][j] = new SimpleStringProperty();
-				m_strProp[i][j].bind(m_main.getPlateau().getStringProperty(i, j));
-				m_strProp[i][j].addListener((ObservableValue<? extends String> obs, String oldV, String newV) -> update());
 				//On ajoute le rectangle à la grille
 				grille.add(m_rect[i][j], j, i);
 			}

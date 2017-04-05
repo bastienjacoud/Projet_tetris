@@ -2,10 +2,7 @@ package Base;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import Graphique.PlateauController;
 import javafx.scene.input.KeyCode;
 
 public class Plateau
@@ -14,6 +11,7 @@ public class Plateau
 	protected int m_x, m_y;
 	protected ArrayList<Piece> m_pieces;
 	protected Case[][] m_cases;
+    protected PlateauController m_observer;
 
 	public Plateau()
 	{
@@ -24,6 +22,11 @@ public class Plateau
 	{
 		Init(hauteur, largeur);
 	}
+
+    public void setObserver(PlateauController o)
+    {
+    	m_observer = o;
+    }
 
 	public int getHauteur()
 	{
@@ -45,24 +48,24 @@ public class Plateau
 		return m_cases;
 	}
 
-	public StringProperty getStringProperty(int ligne, int colonne)
+	public String getString(int ligne, int colonne)
 	{
 		if((ligne < 0)
 			|| (ligne >= m_cases.length)
 			|| (colonne < 0)
 			|| (colonne >= m_cases[ligne].length))
-			return new SimpleStringProperty(Case._colorVide);
-		return m_cases[ligne][colonne].getCouleurProperty();
+			return Case._colorVide;
+		return m_cases[ligne][colonne].getCouleur();
 	}
 
-	public BooleanProperty getSelectedProperty(int ligne, int colonne)
+	public boolean getSelected(int ligne, int colonne)
 	{
 		if((ligne < 0)
 			|| (ligne >= m_cases.length)
 			|| (colonne < 0)
 			|| (colonne >= m_cases[ligne].length))
-			return new SimpleBooleanProperty(false);
-		return m_cases[ligne][colonne].getSelectedProperty();
+			return false;
+		return m_cases[ligne][colonne].getSelected();
 	}
 
 	public void setHauteur(int x)
@@ -74,6 +77,26 @@ public class Plateau
 	public void setLargeur(int y)
 	{
 		m_y = y;
+	}
+
+	public int getLevel()
+	{
+		return 0;
+	}
+
+	public int getScore()
+	{
+		return 0;
+	}
+
+	public int getNbLignes()
+	{
+		return 0;
+	}
+
+	public String getSuiv(int i, int j)
+	{
+		return Case._colorVide;
 	}
 
 	public void setPieces(ArrayList<Piece> pieces)
@@ -111,6 +134,7 @@ public class Plateau
 		for(int i=0;i<piece.Index().length;i++)
 			for(int j=0;j<piece.Index()[0].length;j++)
 				m_cases[i][i].setSelected(true);
+		m_observer.update();
 	}
 
 	public void deselectionne(Piece piece)
@@ -119,6 +143,7 @@ public class Plateau
 		for(int i=0;i<piece.Index().length;i++)
 			for(int j=0;j<piece.Index()[0].length;j++)
 				m_cases[i][i].setSelected(false);
+		m_observer.update();
 	}
 
 	/* Indique si la case aux coordonnees indiquees est occupee
@@ -147,6 +172,8 @@ public class Plateau
 			int[][] index = p.Index();
 			for(int i = 0; i < index.length; i++)
 				m_cases[index[i][0]][index[i][1]].setCouleur(p.getCouleur());
+			if(m_observer != null)
+				m_observer.update();
 			return true;
 		}
 		return false;
@@ -207,6 +234,8 @@ public class Plateau
 			}
 			for(int i = 0; i < newp.length; i++)
 				m_cases[newp[i][0]][newp[i][1]].setCouleur(p.getCouleur());
+			if(m_observer != null)
+				m_observer.update();
 			return true;
 		}
 		return false;
@@ -235,6 +264,8 @@ public class Plateau
 					m_cases[newp[i][0]][newp[i][1]].setCouleur(p.getCouleur());
 				else m_cases[newp[i][0]][newp[i][1]].setCouleur(Case._colorVide);
 			}
+			if(m_observer != null)
+				m_observer.update();
 			return true;
 		}
 		p.Rotate(!s);
@@ -308,7 +339,7 @@ public class Plateau
 
 	public void jouer()
 	{
-		//
+		m_observer.update();
 	}
 
 	public void handleKeyPressed(KeyCode keyCode)
