@@ -17,6 +17,7 @@ public class CasseTeteController extends PlateauController
 	protected String m_lvl;
 	protected String m_score;
 
+	//objets javafx
 	@FXML
 	Label niveau;
 
@@ -46,7 +47,7 @@ public class CasseTeteController extends PlateauController
 		//
 	}
 
-
+	//fonction qui met à jour les modifications du casse tête au niveau du plateau ( en rappelant celle du plateaucontroller)
 	@Override
 	public void update()
 	{
@@ -63,7 +64,7 @@ public class CasseTeteController extends PlateauController
 
 	}
 
-
+	//fonction qui met à jour les pièces sélectionnées(niveau affichage)
 	public void updateSelected()
 	{
 		for(int i = 0; i < m_h; i++)
@@ -75,21 +76,25 @@ public class CasseTeteController extends PlateauController
 		}
 	}
 
+	//fonction qui met à jour le niveau
 	public void updateLevel()
 	{
 		niveau.setText("" + m_main.getPlateau().getLevel());
 	}
 
+	//fonction qui met à jour le score
 	public void updateScore()
 	{
 		score.setText("" + ((CasseTete) (m_main.getPlateau())).getScore() );
 	}
 
+	//fonction qui réinitialise le jeu(graphiquement)
 	public void reinitialise()
 	{
 		((CasseTete) (m_main.getPlateau())).reinitialisation();
 	}
 
+	//fonction pour passer au niveau suivant
 	public void levelsuivant()
 	{
 		if( !((CasseTete) (m_main.getPlateau())).levelSuivant() )
@@ -101,6 +106,7 @@ public class CasseTeteController extends PlateauController
 		}
 	}
 
+	//fonction pour passer au niveau précédent
 	public void levelprecedent()
 	{
 		if( !((CasseTete) (m_main.getPlateau())).levelPrecedent() )
@@ -112,6 +118,8 @@ public class CasseTeteController extends PlateauController
 		}
 	}
 
+	//fonction qui initialise les objets java fx du jeu et appelle les fonctions pour modifier
+	//leurs valeurs quand nécéssaire.
 	public void setMain(Main main)
 	{
 		super.setMain(main);

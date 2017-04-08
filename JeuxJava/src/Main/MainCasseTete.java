@@ -13,11 +13,13 @@ import Modele.CasseTete;
 public class MainCasseTete extends Main
 {
 
+	//constructeur
 	public MainCasseTete()
 	{
 		m_plateau = new CasseTete();
 	}
 
+	//crée le corps du jeu
 	@Override
 	public void start(Stage primaryStage)
 	{
@@ -32,6 +34,7 @@ public class MainCasseTete extends Main
 
 	}
 
+	//affiche le fond du jeu
 	public void initRootLayout()
 	{
 		try
@@ -53,6 +56,7 @@ public class MainCasseTete extends Main
 		}
 	}
 
+	//lance le jeu
 	public static void main(String[] args)
 	{
 		launch(args);

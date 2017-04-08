@@ -8,6 +8,7 @@ public class CasseTete extends Plateau
 	private int m_score;
 	private int m_level;
 
+	//Constructeur
 	public CasseTete()
 	{
 		super(6,6);
@@ -17,6 +18,7 @@ public class CasseTete extends Plateau
 		m_level = 0;
 	}
 
+	//Accesseurs et mutateurs
 	public int getScore()
 	{
 		return m_score;
@@ -49,6 +51,7 @@ public class CasseTete extends Plateau
 		m_piece_sortable = p;
 	}
 
+	//teste si la pièce est horizontale ou non
 	public boolean estHorizontale(Piece p)
 	{
 		if(p.getForme().length == 1)
@@ -57,6 +60,7 @@ public class CasseTete extends Plateau
 			return false;
 	}
 
+	//teste si la pièce est verticale ou non
 	public boolean estVerticale(Piece p)
 	{
 		if(p.getForme()[0].length == 1)
@@ -65,7 +69,8 @@ public class CasseTete extends Plateau
 			return false;
 	}
 
-
+	//Redéfinition de la fonction de gestion des évenements clevier
+	//Permet de n'avoir que les évênements claviers intéressants au jeu
 	public void handleKeyPressed(String keyCode)
 	{
 		if(!finJeu())
@@ -136,6 +141,7 @@ public class CasseTete extends Plateau
 
 	}
 
+	//initialise le jeu pour le niveau 1
 	public void initLVL1()
 	{
 		this.setLevel(1);
@@ -168,6 +174,7 @@ public class CasseTete extends Plateau
 
 	}
 
+	//Initialise le jeu pour le niveau 2
 	public void initLVL2()
 	{
 		this.setLevel(2);
@@ -204,6 +211,7 @@ public class CasseTete extends Plateau
 		poserPiece(p11, 0, 4);
 	}
 
+	//Fonction de réinitialisation du plateau
 	public void reinit()
 	{
 		m_piece_sortable = null;
@@ -220,6 +228,7 @@ public class CasseTete extends Plateau
 				m_cases[i][j].setCouleur(Case._colorVide);
 	}
 
+	//fonction de rénitialisation du jeu en fonction du level
 	public void reinitialisation()
 	{
 		switch(m_level)
@@ -237,6 +246,8 @@ public class CasseTete extends Plateau
 		}
 	}
 
+	//fonction de transition au lvl suivant
+	//renvoie true si transition possible
 	public boolean levelSuivant()
 	{
 		int levelActuel = m_level;
@@ -253,6 +264,8 @@ public class CasseTete extends Plateau
 		}
 	}
 
+	//fonction de transition au lvl précédent
+	//renvoie true si transition possible
 	public boolean levelPrecedent()
 	{
 		int levelActuel = m_level;
@@ -269,12 +282,14 @@ public class CasseTete extends Plateau
 		}
 	}
 
+	//fonction qui lance le jeu
 	public void jouer()
 	{
 		//Par défaut, le jeu se lance sur le niveau 1
 		initLVL1();
 	}
 
+	//fonction qui teste si le jeu est fini
 	public boolean finJeu()
 	{
 		if(!super.getPieces().isEmpty() )
