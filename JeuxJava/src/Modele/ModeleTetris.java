@@ -16,6 +16,7 @@ public class ModeleTetris extends Plateau
     protected Piece m_active;
     protected boolean m_fini;
 
+    //Instancie un plateau de Tetris
     public ModeleTetris()
     {
         super(20, 10);
@@ -30,6 +31,7 @@ public class ModeleTetris extends Plateau
         m_fini = false;
     }
 
+    //Mutateur permettant d'indiquer les prochaines pieces
     protected void SetSuiv(int index, Piece p)
     {
     	boolean[][] f = p.getForme();
@@ -47,6 +49,7 @@ public class ModeleTetris extends Plateau
     		m_observer.updateSuiv();
     }
 
+    //Indique la piece qui sera affectée par les événements
     public void  setActive(Piece p)
     {
     	m_active = p;
@@ -91,6 +94,7 @@ public class ModeleTetris extends Plateau
     		m_observer.updateScore();
     }
 
+    //Lance la partie
     public void jouer()
     {
         SetScore(0);
@@ -104,6 +108,7 @@ public class ModeleTetris extends Plateau
     	poserPiece(temp, 0, 3);
     }
 
+    //Passe à la piece suivante
     public boolean Suivante()
     {
     	//Gestion des lignes
@@ -114,6 +119,7 @@ public class ModeleTetris extends Plateau
     	return poserPiece(temp, 0, 3);
     }
 
+    //Pose une piece sur le plateau
     public boolean poserPiece(Piece p, int px, int py)
     {
     	m_active = p;
@@ -139,6 +145,7 @@ public class ModeleTetris extends Plateau
     	return tab;
     }
 
+    //Supprime les lignes pleines et redescend les autres
     protected void SupprimerLignes()
     {
     	ArrayList<Integer> tab = LignesPleines();
@@ -165,9 +172,9 @@ public class ModeleTetris extends Plateau
     	m_observer.update();
     }
 
+	//Redescend toutes les pieces au dessus de la ligne supprimmee
     protected void Actualiser(int ligne)
     {
-    	//Redescend toutes les pieces au dessus de la ligne supprimmee
     	boolean test;
     	do
     	{
@@ -180,6 +187,7 @@ public class ModeleTetris extends Plateau
     	}while(test);
     }
 
+    //S'assure que l'affichage a suivi la modification
     protected void Refresh()
     {
     	for(int i = 0; i < getHauteur(); i++)
@@ -194,6 +202,7 @@ public class ModeleTetris extends Plateau
     	}
     }
 
+    //Retourne une piece parmi les 7 dispos, avec une couleur aleatoire
     protected static Piece newPiece()
     {
         int r = (int)(Math.random() * 7);
@@ -232,6 +241,7 @@ public class ModeleTetris extends Plateau
         return new Piece(forme);
     }
 
+    //Evénement quand une touche est enfoncée
 	public void handleKeyPressed(String keyCode)
 	{
 		switch(keyCode)
@@ -256,6 +266,7 @@ public class ModeleTetris extends Plateau
 		}
 	}
 
+	//Evénement quand une touche est relachée
 	public void handleKeyReleased(String keyCode)
 	{
 		switch(keyCode)
@@ -268,6 +279,7 @@ public class ModeleTetris extends Plateau
 		}
 	}
 
+	//Met la totalité de l'affichage à jour
 	protected void updateAll()
 	{
 		if(m_observer != null)

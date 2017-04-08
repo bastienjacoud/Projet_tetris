@@ -16,6 +16,7 @@ public class ThreadTetris extends Thread
 		m_actu = m_normal;
 	}
 
+	//Met le thread en pause pendant une durée prédéfinie
 	protected void Pause()
 	{
 		try
@@ -28,11 +29,13 @@ public class ThreadTetris extends Thread
 		}
 	}
 
+	//Passe en chute rapide
 	public void Accelerer()
 	{
 		m_actu = m_accelere;
 	}
 
+	//Passe en chute lente
 	public void Normal()
 	{
 		m_actu = m_normal;
@@ -43,6 +46,7 @@ public class ThreadTetris extends Thread
 		return (p == null) || (p.getX() < 0) || (p.getY() < 0);
 	}
 
+	//Fait descendre la piece active de façon régulière
 	public void Action()
 	{
 		int rep = 0;
